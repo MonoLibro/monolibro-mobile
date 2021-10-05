@@ -12,6 +12,13 @@ class Internationalization{
     "zhtw":"assets/Languages/Zhtw.png",
     "jp":"assets/Languages/Jp.png",
   };
+  static var languageNames = <String,String>{
+    "en":"English",
+    "es":"Español",
+    "zhcn":"简体中文",
+    "zhtw":"繁體中文",
+    "jp":"日本語",
+  };
 
   static String? getIconAssetsPath(String lang){
     if (languages.contains(lang)){
