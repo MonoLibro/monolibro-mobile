@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:monolibro/components/button.dart';
 import 'package:monolibro/components/logo_group.dart';
 import 'package:monolibro/globals/internationalization.dart';
 import 'package:monolibro/globals/theme_colors.dart';
-import 'package:monolibro/globals/typography.dart';
+import 'package:monolibro/globals/typography.dart' as T;
 
 class LanguageSelectorPage extends StatefulWidget {
   const LanguageSelectorPage({Key? key}) : super(key: key);
@@ -47,31 +49,34 @@ class _LanguageSelectorPageState extends State<LanguageSelectorPage> {
   }
 
   Widget buildLanguageSelector(String lang){
-    return GestureDetector(
-      onTap: (){
-        changeLanguage(lang);
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        child: Row(
-          children: [
-            Container(
-              height: 30,
-              padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
-              child: Image.asset(Internationalization.iconAssetsPath[lang].toString()),
-            ),
-            Text(
-              Internationalization.languageNames[lang].toString(),
-              style: TextStyle(
-                decoration: TextDecoration.none,
-                color: lang == this.lang ? ThemeColors.grayAccent[3] : ThemeColors.defaultAccent[3],
-                fontFamily: Typography.latinFontPrimary,
-                fontSize: Typography.focusSize,
+    return Material(
+      color: ThemeColors.defaultAccent[0],
+      child:InkWell(
+        onTap: (){
+          changeLanguage(lang);
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Row(
+            children: [
+              Container(
+                height: 30,
+                padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+                child: Image.asset(Internationalization.iconAssetsPath[lang].toString()),
               ),
-            ),
-          ],
+              Text(
+                Internationalization.languageNames[lang].toString(),
+                style: TextStyle(
+                  decoration: TextDecoration.none,
+                  color: lang == this.lang ? ThemeColors.grayAccent[3] : ThemeColors.defaultAccent[3],
+                  fontFamily: T.Typography.latinFontPrimary,
+                  fontSize: T.Typography.focusSize,
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
+      )
     );
   }
 
@@ -98,7 +103,8 @@ class _LanguageSelectorPageState extends State<LanguageSelectorPage> {
                     color: ThemeColors.grayAccent[3],
                     decoration: TextDecoration.none,
                     fontSize: 16,
-                    fontFamily: Typography.latinFontPrimary
+                    fontFamily: T.Typography.latinFontPrimary,
+                    fontWeight: FontWeight.normal,
                   ),
                 ),
               ),
