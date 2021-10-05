@@ -27,6 +27,9 @@ class Button extends StatelessWidget{
         style: TextButton.styleFrom(
           padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
           primary: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(0),
+          ),
           textStyle: TextStyle(
             fontSize: ThemeTypography.Typography.paragraphSize,
             fontFamily: ThemeTypography.Typography.latinFontPrimary,
