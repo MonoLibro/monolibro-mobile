@@ -39,7 +39,7 @@ class _LanguageSelectorPageState extends State<LanguageSelectorPage> {
   changeLanguage(String lang) async {
     await Internationalization.setLanguage(lang);
     var resultLang = await Internationalization.getLanguage();
-    var resultText = await Internationalization.getTranslationObject(context, lang);
+    var resultText = await Internationalization.getTranslationObject(context, "language_selector_page");
     setState(() {
       this.lang = resultLang;
       text = resultText;
