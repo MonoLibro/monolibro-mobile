@@ -1,0 +1,23 @@
+{
+    "en":{
+        "getStarted":"Get Started ...",
+        "hasAccount":"I own an account:",
+        "newToApp":"I am new to the app:",
+        "importAccount":"Import",
+        "newAccount":"New Account"
+    },
+    "zhcn":{
+        "getStarted":"请选择",
+        "hasAccount":"我已经有帐号了",
+        "newToApp":"第一次使用",
+        "importAccount":"导入旧帐号",
+        "newAccount":"新建帐号"
+    },
+    "zhtw":{
+        "getStarted":"請選擇",
+        "hasAccount":"我曾經使用過",
+        "newToApp":"第一次使用",
+        "importAccount":"匯入舊資料",
+        "newAccount":"新增資料"
+    }
+}
