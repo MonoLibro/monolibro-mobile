@@ -6,4 +6,5 @@ class Typography{
   static double focusSize = 23;
   static double appbarTitleSize = 23;
   static double logoSizePrimary = 35;
+  static double buttonSize = 14;
 }
