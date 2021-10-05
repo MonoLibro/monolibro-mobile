@@ -1,0 +1,14 @@
+{
+    "en":{
+        "confirm":"Next",
+        "welcome":"Welcome to MonoLibro!\nLet's complete the setup process."
+    },
+    "zhcn":{
+        "confirm":"下一步",
+        "welcome":"欢迎使用MonoLibro\n使用前请先花几分钟设置一些必要信息"
+    },
+    "zhtw":{
+        "confirm":"下一步",
+        "welcome":"歡迎使用MonoLibro\n接著將進行幾分鐘的設定即可開始使用"
+    }
+}
