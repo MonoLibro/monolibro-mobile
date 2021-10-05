@@ -50,9 +50,6 @@ class _LanguageSelectorPageState extends State<LanguageSelectorPage> {
     return GestureDetector(
       onTap: (){
         changeLanguage(lang);
-        // print(lang == this.lang);
-        // print(lang);
-        // print(this.lang);
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10),
