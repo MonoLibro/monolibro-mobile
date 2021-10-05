@@ -14,6 +14,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'MonoLibro',
       debugShowCheckedModeBanner: false,
+      routes:{
+        "/init": (context) => const LoadingPage(),
+        "/init/language": (context) => const LanguageSelectorPage(),
+      }
     );
   }
 }
