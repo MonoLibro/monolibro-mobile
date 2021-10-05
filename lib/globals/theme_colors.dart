@@ -24,4 +24,6 @@ class ThemeColors{
       ThemeColors.defaultAccent[0],
     ],
   );
+
+  static var defaultButtonShadow = const Color(0x44000000);
 }
