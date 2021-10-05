@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:monolibro/globals/theme_colors.dart';
 import 'package:monolibro/globals/typography.dart';
 
-class LoadingLogo extends StatelessWidget{
-  const LoadingLogo({Key? key, this.fontSize, this.logoSize}) : super(key: key);
+class LogoGroup extends StatelessWidget{
+  const LogoGroup({Key? key, this.fontSize, this.logoSize}) : super(key: key);
 
   final double? fontSize;
   final double? logoSize;

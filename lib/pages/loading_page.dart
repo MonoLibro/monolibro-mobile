@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:monolibro/components/loading_logo.dart';
+import 'package:monolibro/components/logo_group.dart';
 import 'package:monolibro/globals/theme_colors.dart';
 
 class LoadingPage extends StatefulWidget {
@@ -20,7 +20,7 @@ class _LoadingPageState extends State<LoadingPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children:[
-          const LoadingLogo(),
+          const LogoGroup(),
           CircularProgressIndicator(
             color: ThemeColors.defaultAccent[3],
           ),

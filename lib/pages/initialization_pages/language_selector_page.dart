@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:monolibro/components/button.dart';
-import 'package:monolibro/components/loading_logo.dart';
+import 'package:monolibro/components/logo_group.dart';
 import 'package:monolibro/globals/internationalization.dart';
 import 'package:monolibro/globals/theme_colors.dart';
 import 'package:monolibro/globals/typography.dart';
@@ -87,7 +87,7 @@ class _LanguageSelectorPageState extends State<LanguageSelectorPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const LoadingLogo(),
+              const LogoGroup(),
               Container(
                 margin: const EdgeInsets.fromLTRB(0, 30, 0, 30),
                 // color: ThemeColors.grayAccent[0],
