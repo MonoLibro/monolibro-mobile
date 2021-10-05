@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:monolibro/globals/theme_colors.dart';
+import 'package:monolibro/globals/typography.dart';
 
 class LoadingLogo extends StatelessWidget{
   const LoadingLogo({Key? key}) : super(key: key);
@@ -22,7 +23,7 @@ class LoadingLogo extends StatelessWidget{
             color: ThemeColors.defaultAccent[3],
             decoration: TextDecoration.none,
             fontWeight: FontWeight.normal,
-            fontFamily: "TitilliumWeb",
+            fontFamily: Typography.latinFontPrimary,
           )
         ),
         Text(
@@ -31,7 +32,7 @@ class LoadingLogo extends StatelessWidget{
             color: ThemeColors.grayAccent[3],
             decoration: TextDecoration.none,
             fontWeight: FontWeight.w300,
-            fontFamily: "TitilliumWeb",
+            fontFamily: Typography.latinFontPrimary,
           )
         ),
       ],
