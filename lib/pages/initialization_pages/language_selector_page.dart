@@ -77,56 +77,59 @@ class _LanguageSelectorPageState extends State<LanguageSelectorPage> {
 
   @override
   Widget build(BuildContext context){
-    return Container(
-      decoration: BoxDecoration(
-        gradient: ThemeColors.defaultGradient,
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const LoadingLogo(),
-            Container(
-              margin: const EdgeInsets.fromLTRB(0, 30, 0, 30),
-              // color: ThemeColors.grayAccent[0],
-              child: Text(
-                getText("welcome"),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: ThemeColors.grayAccent[3],
-                  decoration: TextDecoration.none,
-                  fontSize: 16,
-                  fontFamily: Typography.latinFontPrimary
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(30),
-              decoration: BoxDecoration(
-                color: ThemeColors.defaultAccent[0],
-                // borderRadius: const BorderRadius.all(Radius.circular(15)),
-              ),
-              child: Column(
-                children: [
-                  buildLanguageSelector("en"),
-                  buildLanguageSelector("zhcn"),
-                  buildLanguageSelector("zhtw"),
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.all(20),
-              child: Align(
-                child: Button(
-                  text: getText("confirm"),
-                  onPressed: (){},
-                ),
-                alignment: Alignment.centerRight,
-              ),
-            )
-          ],
+    return WillPopScope(
+      onWillPop: () async => false,
+        child: Container(
+        decoration: BoxDecoration(
+          gradient: ThemeColors.defaultGradient,
         ),
-      )
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const LoadingLogo(),
+              Container(
+                margin: const EdgeInsets.fromLTRB(0, 30, 0, 30),
+                // color: ThemeColors.grayAccent[0],
+                child: Text(
+                  getText("welcome"),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: ThemeColors.grayAccent[3],
+                    decoration: TextDecoration.none,
+                    fontSize: 16,
+                    fontFamily: Typography.latinFontPrimary
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(30),
+                decoration: BoxDecoration(
+                  color: ThemeColors.defaultAccent[0],
+                  // borderRadius: const BorderRadius.all(Radius.circular(15)),
+                ),
+                child: Column(
+                  children: [
+                    buildLanguageSelector("en"),
+                    buildLanguageSelector("zhcn"),
+                    buildLanguageSelector("zhtw"),
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(20),
+                child: Align(
+                  child: Button(
+                    text: getText("confirm"),
+                    onPressed: (){},
+                  ),
+                  alignment: Alignment.centerRight,
+                ),
+              )
+            ],
+          ),
+        )
+      ),
     );
   }
 }
