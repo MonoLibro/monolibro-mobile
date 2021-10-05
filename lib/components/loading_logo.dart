@@ -3,7 +3,10 @@ import 'package:monolibro/globals/theme_colors.dart';
 import 'package:monolibro/globals/typography.dart';
 
 class LoadingLogo extends StatelessWidget{
-  const LoadingLogo({Key? key}) : super(key: key);
+  const LoadingLogo({Key? key, this.fontSize, this.logoSize}) : super(key: key);
+
+  final double? fontSize;
+  final double? logoSize;
 
   @override
   Widget build(BuildContext context){
@@ -11,10 +14,12 @@ class LoadingLogo extends StatelessWidget{
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
+          width: logoSize,
+          height: logoSize,
           margin: const EdgeInsets.symmetric(horizontal: 10),
           child: Image.asset(
             "assets/Logo.png",
-            scale: 10,
+            scale: (logoSize == null) ? 10 : null,
           ),
         ),
         Text(
@@ -24,6 +29,7 @@ class LoadingLogo extends StatelessWidget{
             decoration: TextDecoration.none,
             fontWeight: FontWeight.normal,
             fontFamily: Typography.latinFontPrimary,
+            fontSize: fontSize,
           )
         ),
         Text(
@@ -33,6 +39,7 @@ class LoadingLogo extends StatelessWidget{
             decoration: TextDecoration.none,
             fontWeight: FontWeight.w300,
             fontFamily: Typography.latinFontPrimary,
+            fontSize: fontSize,
           )
         ),
       ],
