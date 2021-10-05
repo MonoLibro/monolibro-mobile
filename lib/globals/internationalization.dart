@@ -41,7 +41,7 @@ class Internationalization{
 
   static Future<Map> getTranslationObject(BuildContext context, String filename) async {
     String lang = await getLanguage();
-    String data = await DefaultAssetBundle.of(context).loadString("langs/language_selector_page.json");
+    String data = await DefaultAssetBundle.of(context).loadString("langs/$filename.json");
     return jsonDecode(data)[lang];
   }
 }
