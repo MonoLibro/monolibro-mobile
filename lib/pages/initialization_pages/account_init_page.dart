@@ -39,7 +39,6 @@ class _AccountInitPageState extends State<AccountInitPage>{
   }
 
   getData() async {
-    await Internationalization.setLanguage("en");
     var result = await Internationalization.getTranslationObject(context, "account_init_page");
     setState(() {
       text = result;
