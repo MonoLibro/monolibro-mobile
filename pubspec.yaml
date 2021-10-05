@@ -53,6 +53,7 @@ flutter:
   assets:
     - assets/
     - assets/Languages/
+    - langs/
 
   fonts:
     - family: Roboto
