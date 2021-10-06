@@ -23,7 +23,7 @@ To Build for "Release" (Will result in the Build directory)
 # At project root
 flutter clean
 flutter pub get
-flutter build apk --no-sound-null-safety
+flutter build apk
 ```
 
 To Build and Debug with Hot Reload
@@ -34,5 +34,5 @@ To Build and Debug with Hot Reload
 flutter emulator --launch [Emulator ID] # Repelace the [Emulator ID] to your Emulator ID
 
 # Build and Run on connected devices.
-flutter run --no-sound-null-safety
+flutter run
 ```
