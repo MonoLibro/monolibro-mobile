@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:monolibro/components/logo_group.dart';
 import 'package:monolibro/globals/theme_colors.dart';
-import 'package:monolibro/globals/typography.dart' as T;
+import 'package:monolibro/globals/typography.dart' as t;
 
 class MonolibroScaffold extends StatelessWidget{
   const MonolibroScaffold({Key? key, required this.title, this.color, this.body, this.popButton, this.left, this.fullIcon}) : super(key: key);
@@ -61,10 +61,10 @@ class MonolibroScaffold extends StatelessWidget{
                     Text(
                       title,
                       style: TextStyle(
-                        fontSize: T.Typography.appbarTitleSize,
+                        fontSize: t.Typography.appbarTitleSize,
                         decoration: TextDecoration.none,
                         color: ThemeColors.grayAccent[3],
-                        fontFamily: T.Typography.latinFontPrimary,
+                        fontFamily: t.Typography.latinFontPrimary,
                         fontWeight: FontWeight.w200,
                       )
                     )
@@ -107,7 +107,7 @@ class MonolibroScaffold extends StatelessWidget{
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: LogoGroup(
-                    fontSize: T.Typography.logoSizePrimary,
+                    fontSize: t.Typography.logoSizePrimary,
                     logoSize: 50,
                   ),
                 )

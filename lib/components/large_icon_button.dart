@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:monolibro/components/paragraph.dart';
 import 'package:monolibro/globals/theme_colors.dart';
-import 'package:monolibro/globals/typography.dart' as T;
+import 'package:monolibro/globals/typography.dart' as t;
 
 class LargeIconButton extends StatelessWidget{
   const LargeIconButton({Key? key, required this.icon, required this.text, required this.onTap}) : super(key: key);
@@ -38,7 +38,7 @@ class LargeIconButton extends StatelessWidget{
               Paragraph(
                 text: text,
                 color: ThemeColors.grayAccent[0],
-                size: T.Typography.buttonSize,
+                size: t.Typography.buttonSize,
               )
             ],
           ),

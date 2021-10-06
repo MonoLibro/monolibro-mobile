@@ -7,7 +7,7 @@ import 'package:monolibro/components/large_icon_button.dart';
 import 'package:monolibro/components/paragraph.dart';
 import 'package:monolibro/globals/internationalization.dart';
 import 'package:monolibro/globals/theme_colors.dart';
-import 'package:monolibro/globals/typography.dart' as T;
+import 'package:monolibro/globals/typography.dart' as t;
 
 class AccountInitPage extends StatefulWidget{
   const AccountInitPage({Key? key}) : super(key: key);
@@ -81,7 +81,7 @@ class _AccountInitPageState extends State<AccountInitPage>{
               Text(
                 getText("getStarted"),
                 style: TextStyle(
-                  fontFamily: T.Typography.latinFontPrimary,
+                  fontFamily: t.Typography.latinFontPrimary,
                   color: ThemeColors.defaultAccent[3],
                   decoration: TextDecoration.none,
                   fontWeight: FontWeight.normal,

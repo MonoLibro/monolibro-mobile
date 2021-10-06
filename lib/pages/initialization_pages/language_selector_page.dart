@@ -5,7 +5,7 @@ import 'package:monolibro/components/button.dart';
 import 'package:monolibro/components/logo_group.dart';
 import 'package:monolibro/globals/internationalization.dart';
 import 'package:monolibro/globals/theme_colors.dart';
-import 'package:monolibro/globals/typography.dart' as T;
+import 'package:monolibro/globals/typography.dart' as t;
 
 class LanguageSelectorPage extends StatefulWidget {
   const LanguageSelectorPage({Key? key}) : super(key: key);
@@ -69,8 +69,8 @@ class _LanguageSelectorPageState extends State<LanguageSelectorPage> {
                 style: TextStyle(
                   decoration: TextDecoration.none,
                   color: lang == this.lang ? ThemeColors.grayAccent[3] : ThemeColors.defaultAccent[3],
-                  fontFamily: T.Typography.latinFontPrimary,
-                  fontSize: T.Typography.focusSize,
+                  fontFamily: t.Typography.latinFontPrimary,
+                  fontSize: t.Typography.focusSize,
                 ),
               ),
             ],
@@ -103,7 +103,7 @@ class _LanguageSelectorPageState extends State<LanguageSelectorPage> {
                     color: ThemeColors.grayAccent[3],
                     decoration: TextDecoration.none,
                     fontSize: 16,
-                    fontFamily: T.Typography.latinFontPrimary,
+                    fontFamily: t.Typography.latinFontPrimary,
                     fontWeight: FontWeight.normal,
                   ),
                 ),

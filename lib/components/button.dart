@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:monolibro/globals/theme_colors.dart';
-import 'package:monolibro/globals/typography.dart' as ThemeTypography;
+import 'package:monolibro/globals/typography.dart' as t;
 
 class Button extends StatelessWidget{
   const Button({Key? key, required this.text, required this.onPressed}) : super(key: key);
@@ -31,8 +31,8 @@ class Button extends StatelessWidget{
             borderRadius: BorderRadius.circular(0),
           ),
           textStyle: TextStyle(
-            fontSize: ThemeTypography.Typography.paragraphSize,
-            fontFamily: ThemeTypography.Typography.latinFontPrimary,
+            fontSize: t.Typography.paragraphSize,
+            fontFamily: t.Typography.latinFontPrimary,
             fontWeight: FontWeight.bold
           ),
         )
