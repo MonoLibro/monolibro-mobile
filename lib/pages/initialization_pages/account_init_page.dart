@@ -101,17 +101,3 @@ class _AccountInitPageState extends State<AccountInitPage>{
     );
   }
 }
-
-// class AccountInitPage extends StatelessWidget{
-//   const AccountInitPage({Key? key}) : super(key: key);
-
-//   Map text = {},
-
-//   Future<void> getData() async {
-
-//   }
-
-//   init
-
-//   
-// }
