@@ -1,0 +1,38 @@
+{
+    "en":{
+        "title":"Import Account",
+        "step": "Step %s:",
+        "1":"1",
+        "2":"2",
+        "3":"3",
+        "4":"4",
+        "instruction_0":"In an app that has signed in with your old account",
+        "instruction_1":"Click on the settings icon at the top right corner to enter the settings menu",
+        "instruction_2":"Click on the export account icon at the top right corner",
+        "instruction_3":"Scan the qr code using this app"
+    },
+    "zhcn":{
+        "title":"导入旧帐号",
+        "step": "第%s步",
+        "1":"一",
+        "2":"二",
+        "3":"三",
+        "4":"四",
+        "instruction_0":"打开一个登入了旧帐号的程序",
+        "instruction_1":"按下右上角的设置按钮进入设置页面",
+        "instruction_2":"按下设置页面右上角的“导出帐号”按钮",
+        "instruction_3":"用此程序扫描弹出的二维码"
+    },
+    "zhtw":{
+        "title":"匯入舊資料",
+        "step": "第%s步",
+        "1":"一",
+        "2":"二",
+        "3":"三",
+        "4":"四",
+        "instruction_0":"打開一個已經登入舊用戶的App",
+        "instruction_1":"選擇右上角的設定按鈕進入設定界面",
+        "instruction_2":"在設定界面的右上角按下“匯出資料”按鈕",
+        "instruction_3":"使用此程式掃描屏幕中的 QR Code"
+    }
+}
