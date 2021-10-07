@@ -20,6 +20,7 @@ class _AccountInitPageState extends State<AccountInitPage>{
   Map text = {};
   final promptSequence = ["hasAccount","newToApp"];
   final buttonSequence = ["importAccount","newAccount"];
+  final pageSequence = ["/init/importAccount", ""];
   final buttonIconSequence = [
     FaIcon(
       FontAwesomeIcons.fileImport,
@@ -62,7 +63,9 @@ class _AccountInitPageState extends State<AccountInitPage>{
         LargeIconButton(
           text: getText(buttonSequence[index]),
           icon: buttonIconSequence[index],
-          onTap: (){},
+          onTap: (){
+            Navigator.pushNamed(context, pageSequence[index]);
+          },
         ),
       ],
     );
