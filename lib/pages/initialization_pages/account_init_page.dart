@@ -20,7 +20,7 @@ class _AccountInitPageState extends State<AccountInitPage>{
   Map text = {};
   final promptSequence = ["hasAccount","newToApp"];
   final buttonSequence = ["importAccount","newAccount"];
-  final pageSequence = ["/init/importAccount", ""];
+  final pageSequence = ["/init/importaccount", "/init/newaccount"];
   final buttonIconSequence = [
     FaIcon(
       FontAwesomeIcons.fileImport,

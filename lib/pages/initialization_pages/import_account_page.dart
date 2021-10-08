@@ -73,7 +73,7 @@ class _ImportAccountPageState extends State<ImportAccountPage>{
               ),
             ),
           ),
-          Container(
+          SizedBox(
             width: contentWidth,
             child: Align(
               alignment: Alignment.centerLeft,

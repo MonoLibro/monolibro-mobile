@@ -19,7 +19,7 @@ class InputLayout extends StatelessWidget{
       var expandable = group.expandable ?? false;
       Widget title = Row(
         children: [
-          Container(
+          SizedBox(
             width: sidebarWidth,
             child: group.icon,
           ),
@@ -107,7 +107,7 @@ class InputLayout extends StatelessWidget{
     if (sidebarWidth < sidebarWidthThreshold){
       sidebarWidth = sidebarWidthThreshold.toDouble();
     }
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Stack(
         children: [

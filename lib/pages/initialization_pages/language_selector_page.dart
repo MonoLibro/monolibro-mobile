@@ -128,7 +128,7 @@ class _LanguageSelectorPageState extends State<LanguageSelectorPage> {
                   child: Button(
                     text: getText("confirm"),
                     onPressed: (){
-                      Navigator.pushNamed(context, "/init/accountInit");
+                      Navigator.pushNamed(context, "/init/accountinit");
                     },
                   ),
                   alignment: Alignment.centerRight,

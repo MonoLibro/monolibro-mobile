@@ -9,7 +9,7 @@ class InputText extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Container(
+      child: SizedBox(
         height: 40,
         child: TextField(
           cursorColor: ThemeColors.defaultAccent[3],

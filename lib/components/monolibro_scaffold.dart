@@ -95,7 +95,7 @@ class MonolibroScaffold extends StatelessWidget{
                 visible: ! hasFullIcon,
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Container(
+                  child: SizedBox(
                     width: 50,
                     height: 50,
                     child:Image.asset("assets/Logo.png")
