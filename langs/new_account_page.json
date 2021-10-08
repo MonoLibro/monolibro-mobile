@@ -1,0 +1,32 @@
+{
+    "en":{
+        "title":"New Account",
+        "userGroup":"Personnel Information",
+        "userID":"User ID",
+        "firstName":"First Name",
+        "lastName":"Last Name",
+        "email":"Email",
+        "confirm":"New Account",
+        "advancedGroup":"Adcanced Options"
+    },
+    "zhcn":{
+        "title":"新建帐号",
+        "userGroup":"基本信息",
+        "userID":"用户ID",
+        "firstName":"姓",
+        "lastName":"名",
+        "email":"电子邮箱",
+        "confirm":"新建用户",
+        "advancedGroup":"高级选项"
+    },
+    "zhtw":{
+        "title":"新增資料",
+        "userGroup":"基本資料",
+        "userID":"使用者ID",
+        "firstName":"姓",
+        "lastName":"名",
+        "email":"電子郵件地址",
+        "confirm":"創建新資料",
+        "advancedGroup":"進階設定"
+    }
+}
