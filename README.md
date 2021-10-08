@@ -6,7 +6,7 @@ The mobile client for the MonoLibro Protocol.
 
 ## Clone, Build and Debug
 
-Software requirement: `Git`, `Flutter`, `Dart`, `Android SDK`, `Java Runtime`, ``  
+Software requirement:
  - Git
  - Flutter
  - Dart
