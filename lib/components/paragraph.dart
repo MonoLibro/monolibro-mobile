@@ -4,10 +4,11 @@ import 'package:monolibro/globals/theme_colors.dart';
 import 'package:monolibro/globals/typography.dart' as t;
 
 class Paragraph extends StatelessWidget{
-  const Paragraph({Key? key, this.text, this.color, this.size}) : super(key: key);
+  const Paragraph({Key? key, this.text, this.color, this.size, this.weight}) : super(key: key);
   final String? text;
   final Color? color;
   final double? size;
+  final FontWeight? weight;
 
   @override
   Widget build(BuildContext context) {
