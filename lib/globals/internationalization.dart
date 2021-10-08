@@ -33,8 +33,8 @@ class Internationalization{
   }
 
   static Future<String> getLanguage() async {
-    String lang = await LocalStorage.getItem("lang");
-    if (languages.contains(lang)) return lang;
+    String? lang = await LocalStorage.getItem("lang");
+    if (languages.contains(lang)) return lang.toString();
     await Internationalization.setLanguage("en");
     return "en";
   }
