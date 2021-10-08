@@ -31,6 +31,7 @@ dependencies:
   sprintf: ^6.0.0
   qr_code_scanner: ^0.4.0
   carbon_icons: ^0.0.1
+  expandable: ^5.0.1
 
 dev_dependencies:
   flutter_test:
