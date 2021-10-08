@@ -14,7 +14,7 @@ class InputText extends StatelessWidget{
         child: TextField(
           cursorColor: ThemeColors.defaultAccent[3],
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             border: OutlineInputBorder(
               borderSide: BorderSide(color: ThemeColors.grayAccent[2]),
             ),

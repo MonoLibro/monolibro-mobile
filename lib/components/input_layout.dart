@@ -45,7 +45,7 @@ class InputLayout extends StatelessWidget{
       );
       if (expandable){
         title = Material(
-          color: const Color(0),
+          color: const Color(0x00000000),
           child: ExpandableButton(child: title)
         );
       }
