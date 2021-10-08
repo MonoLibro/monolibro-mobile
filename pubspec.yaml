@@ -30,6 +30,7 @@ dependencies:
   flutter_swiper_null_safety: ^1.0.2
   sprintf: ^6.0.0
   qr_code_scanner: ^0.4.0
+  carbon_icons: ^0.0.1
 
 dev_dependencies:
   flutter_test:
