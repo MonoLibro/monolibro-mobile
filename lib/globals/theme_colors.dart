@@ -27,4 +27,7 @@ class ThemeColors{
 
   static var defaultButtonShadow = const Color(0x44000000);
   static var defaultAppbarShadow = const Color(0x66000000);
+  static var defaultPanelShadow = const Color(0x66000000);
+
+  static var overlayColor = const Color(0x55000000);
 }
