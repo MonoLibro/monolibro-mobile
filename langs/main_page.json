@@ -1,0 +1,14 @@
+{
+    "en":{
+        "or":"OR",
+        "codePrompt":"Enter the 6-digit code"
+    },
+    "zhcn":{
+        "or":"或者",
+        "codePrompt":"输入6位活动代码"
+    },
+    "zhtw":{
+        "or":"或者",
+        "codePrompt":"輸入6位活動碼"
+    }
+}
