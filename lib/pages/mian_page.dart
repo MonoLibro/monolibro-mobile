@@ -8,11 +8,10 @@ import 'package:monolibro/globals/typography.dart' as t;
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class PanelData{
-  PanelData({required this.index, required this.padding, required this.position, required this.color});
+  PanelData({required this.index, required this.padding, required this.position});
   int index;
   double padding;
   double position;
-  Color color;
 
   @override
   String toString(){
@@ -37,10 +36,10 @@ class _MainPageState extends State<MainPage>{
   int index = 0;
 
   List panelData = [
-    (BuildContext context) => PanelData(index: 0, padding: 20, position: 0, color: Colors.green),
-    (BuildContext context) => PanelData(index: 1, padding: 20, position: MediaQuery.of(context).size.width - 50, color: Colors.red),
-    (BuildContext context) => PanelData(index: 2, padding: 20, position: MediaQuery.of(context).size.width * 2 - 100, color: Colors.blue),
-    (BuildContext context) => PanelData(index: 3, padding: 20, position: MediaQuery.of(context).size.width * 2 - 0, color: Colors.yellow),
+    (BuildContext context) => PanelData(index: 0, padding: 20, position: 0),
+    (BuildContext context) => PanelData(index: 1, padding: 20, position: MediaQuery.of(context).size.width - 50),
+    (BuildContext context) => PanelData(index: 2, padding: 20, position: MediaQuery.of(context).size.width * 2 - 100),
+    (BuildContext context) => PanelData(index: 3, padding: 20, position: MediaQuery.of(context).size.width * 2 - 0),
   ];
 
   var qrKey = GlobalKey(debugLabel: "activityQr");
@@ -436,7 +435,7 @@ class _MainPageState extends State<MainPage>{
                 duration: const Duration(milliseconds: 100),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: panelData[i](context).color,
+                    color: const Color(0xFFFFFFFF),
                     boxShadow: [
                       BoxShadow(
                         color: ThemeColors.defaultPanelShadow,
