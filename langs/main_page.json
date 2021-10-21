@@ -1,14 +1,26 @@
 {
     "en":{
         "or":"OR",
-        "codePrompt":"Enter the 6-digit code"
+        "codePrompt":"Enter the 6-digit code",
+        "commit":"Commit",
+        "newActivity":"New Activity",
+        "activityName":"Activity Name (e.g. Lunch)",
+        "totalAmount":"Total Paid Amount"
     },
     "zhcn":{
         "or":"或者",
-        "codePrompt":"输入6位活动代码"
+        "codePrompt":"输入6位活动代码",
+        "commit":"确认",
+        "newActivity":"新建活动",
+        "activityName":"活动名称（例：午餐）",
+        "totalAmount":"总金额"
     },
     "zhtw":{
         "or":"或者",
-        "codePrompt":"輸入6位活動碼"
+        "codePrompt":"輸入6位活動碼",
+        "commit":"確定",
+        "newActivity":"新增活動",
+        "activityName":"活動名稱（例：午餐）",
+        "totalAmount":"總付款金額"
     }
 }

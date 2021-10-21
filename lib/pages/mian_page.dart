@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:monolibro/components/mian_panels/new_activity.dart';
 import 'package:monolibro/components/monolibro_scaffold.dart';
 import 'package:monolibro/components/paragraph.dart';
 import 'package:monolibro/globals/internationalization.dart';
@@ -356,6 +357,13 @@ class _MainPageState extends State<MainPage>{
     }
   }
 
+  Widget getPanelPage(int index, Map text){
+    if (index == 1){
+      return NewActivity(text: text);
+    }
+    return Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MonolibroScaffold(
@@ -446,6 +454,32 @@ class _MainPageState extends State<MainPage>{
                   ),
                   height: MediaQuery.of(context).size.height - (8 * (panelData[i](context).padding)),
                   width: MediaQuery.of(context).size.width - (2 * (panelData[i](context).padding)),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height - (8 * (panelData[i](context).padding)),
+                        width: 30,
+                        child: Center(
+                          child: Container(
+                            width: 10,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              color: ThemeColors.grayAccent[2],
+                              borderRadius: const BorderRadius.all(Radius.circular(5))
+                            ),
+                          )
+                        ),
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height - (8 * (panelData[i](context).padding)),
+                        width: MediaQuery.of(context).size.width - (2 * (panelData[i](context).padding)) - 30,
+                        child: getPanelPage(
+                          i,
+                          text,
+                        ),
+                      ),
+                    ],
+                  ),
                 )
               )
             ),
