@@ -32,6 +32,7 @@ dependencies:
   qr_code_scanner: ^0.4.0
   carbon_icons: ^0.0.1
   expandable: ^5.0.1
+  keyboard_visibility: any
 
 dev_dependencies:
   flutter_test:
