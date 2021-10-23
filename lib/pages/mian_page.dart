@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:monolibro/components/mian_panels/activity_history.dart';
 import 'package:monolibro/components/mian_panels/new_activity.dart';
 import 'package:monolibro/components/monolibro_scaffold.dart';
 import 'package:monolibro/components/paragraph.dart';
@@ -9,10 +10,11 @@ import 'package:monolibro/globals/typography.dart' as t;
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class PanelData{
-  PanelData({required this.index, required this.padding, required this.position});
+  PanelData({required this.index, required this.padding, required this.position, required this.color});
   int index;
   double padding;
   double position;
+  Color color;
 
   @override
   String toString(){
@@ -37,10 +39,10 @@ class _MainPageState extends State<MainPage>{
   int index = 0;
 
   List panelData = [
-    (BuildContext context) => PanelData(index: 0, padding: 20, position: 0),
-    (BuildContext context) => PanelData(index: 1, padding: 20, position: MediaQuery.of(context).size.width - 50),
-    (BuildContext context) => PanelData(index: 2, padding: 20, position: MediaQuery.of(context).size.width * 2 - 100),
-    (BuildContext context) => PanelData(index: 3, padding: 20, position: MediaQuery.of(context).size.width * 2 - 0),
+    (BuildContext context) => PanelData(index: 0, padding: 20, position: 0, color: const Color(0x00000000)),
+    (BuildContext context) => PanelData(index: 1, padding: 20, position: MediaQuery.of(context).size.width - 50, color: const Color(0xFFFFFFFF)),
+    (BuildContext context) => PanelData(index: 2, padding: 20, position: MediaQuery.of(context).size.width * 2 - 100, color: ThemeColors.grayAccent[1]),
+    (BuildContext context) => PanelData(index: 3, padding: 20, position: MediaQuery.of(context).size.width * 2 - 0, color: const Color(0xFFFFFFFF)),
   ];
 
   var qrKey = GlobalKey(debugLabel: "activityQr");
@@ -361,6 +363,9 @@ class _MainPageState extends State<MainPage>{
     if (index == 1){
       return NewActivity(text: text);
     }
+    if (index == 2){
+      return ActivityHistory(text: text);
+    }
     return Container();
   }
 
@@ -456,9 +461,16 @@ class _MainPageState extends State<MainPage>{
                   width: MediaQuery.of(context).size.width - (2 * (panelData[i](context).padding)),
                   child: Row(
                     children: [
-                      SizedBox(
+                      Container(
                         height: MediaQuery.of(context).size.height - (8 * (panelData[i](context).padding)),
                         width: 30,
+                        decoration: BoxDecoration(
+                          color: panelData[i](context).color,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            bottomLeft: Radius.circular(15),
+                          ),
+                        ),
                         child: Center(
                           child: Container(
                             width: 10,
@@ -470,7 +482,7 @@ class _MainPageState extends State<MainPage>{
                           )
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: MediaQuery.of(context).size.height - (8 * (panelData[i](context).padding)),
                         width: MediaQuery.of(context).size.width - (2 * (panelData[i](context).padding)) - 30,
                         child: getPanelPage(
