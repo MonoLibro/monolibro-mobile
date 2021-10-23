@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:monolibro/components/mian_panels/new_activity.dart';
+import 'package:monolibro/components/main_panels/new_activity.dart';
 import 'package:monolibro/components/monolibro_scaffold.dart';
 import 'package:monolibro/components/paragraph.dart';
 import 'package:monolibro/globals/internationalization.dart';

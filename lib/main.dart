@@ -4,7 +4,7 @@ import 'package:monolibro/pages/initialization_pages/language_selector_page.dart
 import 'package:monolibro/pages/initialization_pages/import_account_page.dart';
 import 'package:monolibro/pages/initialization_pages/new_account_page.dart';
 import 'package:monolibro/pages/loading_page.dart';
-import 'package:monolibro/pages/mian_page.dart';
+import 'package:monolibro/pages/main_page.dart';
 
 void main() {
   runApp(const MyApp());
