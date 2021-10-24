@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:monolibro/components/main_panels/activity_history.dart';
 import 'package:monolibro/components/main_panels/new_activity.dart';
 import 'package:monolibro/components/monolibro_scaffold.dart';
 import 'package:monolibro/components/paragraph.dart';
@@ -369,9 +370,9 @@ class _MainPageState extends State<MainPage>{
     if (index == 1){
       return NewActivity(text: text);
     }
-    // if (index == 2){
-    //   return ActivityHistory(text: text);
-    // }
+    if (index == 2){
+      return ActivityHistory(text: text, index: this.index);
+    }
     return Container();
   }
 
