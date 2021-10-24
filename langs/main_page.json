@@ -5,7 +5,9 @@
         "commit":"Commit",
         "newActivity":"New Activity",
         "activityName":"Activity Name (e.g. Lunch)",
-        "totalAmount":"Total Paid Amount"
+        "totalAmount":"Total Paid Amount",
+        "activityHistory":"Activity History",
+        "pending":"Pending... "
     },
     "zhcn":{
         "or":"或者",
@@ -13,7 +15,9 @@
         "commit":"确认",
         "newActivity":"新建活动",
         "activityName":"活动名称（例：午餐）",
-        "totalAmount":"总金额"
+        "totalAmount":"总金额",
+        "activityHistory":"活动历史",
+        "pending":"正在创建"
     },
     "zhtw":{
         "or":"或者",
@@ -21,6 +25,8 @@
         "commit":"確定",
         "newActivity":"新增活動",
         "activityName":"活動名稱（例：午餐）",
-        "totalAmount":"總付款金額"
+        "totalAmount":"總付款金額",
+        "activityHistory":"活動歷史",
+        "pending":"新增中"
     }
 }
