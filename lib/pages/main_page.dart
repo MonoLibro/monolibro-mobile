@@ -288,7 +288,6 @@ class _MainPageState extends State<MainPage>{
       setToCurrentPage(context);
       return;
     }
-    double width = MediaQuery.of(context).size.width;
     PanelData currentPage = panelData[index](context);
     if (currentPage.position < 0){
       currentPage.padding -= delta * 0.05;
