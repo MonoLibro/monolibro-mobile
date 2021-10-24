@@ -225,7 +225,11 @@ class _MainPageState extends State<MainPage>{
     });
     Future.delayed(
       const Duration(milliseconds: 100),
-      () => index ++,
+      () {
+        setState(() {
+          index ++;
+        });
+      },
     );
   }
 
@@ -278,7 +282,11 @@ class _MainPageState extends State<MainPage>{
     });
     Future.delayed(
       const Duration(milliseconds: 100),
-      () => index --,
+      () {
+        setState(() {
+          index --;
+        });
+      },
     );
   }
 
