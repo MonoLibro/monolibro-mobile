@@ -7,7 +7,12 @@
         "activityName":"Activity Name (e.g. Lunch)",
         "totalAmount":"Total Paid Amount",
         "activityHistory":"Activity History",
-        "pending":"Pending... "
+        "pending":"Pending... ",
+        "dashboard":"Dashboard",
+        "spent":"You have spent ...",
+        "thisMonth":"This Month",
+        "requiredOut":"You need to pay...",
+        "requiredIn":"Someone needs to pay you..."
     },
     "zhcn":{
         "or":"或者",
@@ -17,7 +22,12 @@
         "activityName":"活动名称（例：午餐）",
         "totalAmount":"总金额",
         "activityHistory":"活动历史",
-        "pending":"正在创建"
+        "pending":"正在创建",
+        "dashboard":"一览表",
+        "spent":"本月支出金额",
+        "thisMonth":"",
+        "requiredOut":"你需要归还的金额：",
+        "requiredIn":"你需要收回的金额："
     },
     "zhtw":{
         "or":"或者",
@@ -27,6 +37,11 @@
         "activityName":"活動名稱（例：午餐）",
         "totalAmount":"總付款金額",
         "activityHistory":"活動歷史",
-        "pending":"新增中"
+        "pending":"新增中",
+        "dashboard":"總管",
+        "spent":"本月支出金額",
+        "thisMonth":"",
+        "requiredOut":"你需要歸還的金額：",
+        "requiredIn":"你需要回收的金額："
     }
 }
