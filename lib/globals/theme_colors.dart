@@ -30,6 +30,10 @@ class ThemeColors{
     const Color(0xFF006e49)
   ];
 
+  static var errorAccent = [
+    const Color(0xFFA41B21),
+  ];
+
   static var defaultButtonShadow = const Color(0x44000000);
   static var defaultAppbarShadow = const Color(0x66000000);
   static var defaultPanelShadow = const Color(0x66000000);
