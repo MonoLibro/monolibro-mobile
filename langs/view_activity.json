@@ -1,0 +1,26 @@
+{
+    "en":{
+        "title": "View Activity",
+        "youPaid": "Your payment:",
+        "totalPaid": "Total payment:",
+        "members": "Participants",
+        "commit": "Confirm",
+        "edit": "Edit"
+    },
+    "zhcn":{
+        "title": "查看活动",
+        "youPaid": "你的花费：",
+        "totalPaid": "总共支付：",
+        "members": "活动成员",
+        "commit": "确认",
+        "edit": "编辑"
+    },
+    "zhtw":{
+        "title": "查看活動",
+        "youPaid": "你的花費：",
+        "totalPaid": "總共花費：",
+        "members": "活動成員",
+        "commit": "確定",
+        "edit": "更改"
+    }
+}

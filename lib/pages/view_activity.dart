@@ -96,9 +96,9 @@ class _ViewActivityState extends State<ViewActivity>{
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 30),
+            padding: const EdgeInsets.symmetric(vertical: 30),
             child:  Paragraph(
-              text: "Participants",
+              text: getText("members"),
               size: 22,
             ),
           ),
@@ -144,8 +144,8 @@ class _ViewActivityState extends State<ViewActivity>{
               Padding(
                 padding: const EdgeInsets.only(left: 30, bottom: 20),
                 child: Paragraph(
-                  text: "Lunch with the team",
-                  size: t.Typography.focusSize,
+                  text: getText("youPaid") + " | " + getText("totalPaid"),
+                  size: t.Typography.focusSize - 5,
                   color: ThemeColors.grayAccent[3],
                 )
               ),
@@ -156,7 +156,7 @@ class _ViewActivityState extends State<ViewActivity>{
           ),
         )
       ),
-      title: "hello",
+      title: getText("title"),
       color: ThemeColors.grayAccent[1]
     );
   }
