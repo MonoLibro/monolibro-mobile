@@ -23,7 +23,7 @@ class _ViewActivityPageState extends State<ViewActivityPage>{
   }
 
   getData() async {
-    var result = await Internationalization.getTranslationObject(context, "view_activity");
+    var result = await Internationalization.getTranslationObject(context, "view_activity_page");
     setState(() {
       text = result;
     });
