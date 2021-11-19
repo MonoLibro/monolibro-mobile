@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:monolibro/pages/export_account_page.dart';
 import 'package:monolibro/pages/initialization_pages/account_init_page.dart';
 import 'package:monolibro/pages/initialization_pages/language_selector_page.dart';
 import 'package:monolibro/pages/initialization_pages/import_account_page.dart';
@@ -20,10 +21,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'MonoLibro',
       debugShowCheckedModeBanner: false,
-      initialRoute: "/options",
+      initialRoute: "/options/export",
       routes:{
         "/view_activity": (context) => const ViewActivityPage(),
         "/options": (context) => const OptionsPage(),
+        "/options/export": (context) => const ExportAccountPage(),
         "/init": (context) => const LoadingPage(),
         "/init/language": (context) => const LanguageSelectorPage(),
         "/init/accountinit": (context) => const AccountInitPage(),

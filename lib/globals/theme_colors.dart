@@ -32,6 +32,7 @@ class ThemeColors{
 
   static var errorAccent = [
     const Color(0xFFA41B21),
+    const Color(0xFFD32F2F),
   ];
 
   static var defaultButtonShadow = const Color(0x44000000);

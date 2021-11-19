@@ -1,0 +1,20 @@
+{
+    "en":{
+        "title":"Account Transfer",
+        "warningTitle":"DO NOT show this to anyone",
+        "warningContent":"This QR Code is for ACCOUNT TRANSFER.\nLeaking of this code can cause leaking of sensitive data!\nProceed with caution.",
+        "warningConfirm":"Proceed"
+    },
+    "zhcn":{
+        "title":"导出帐号",
+        "warningTitle":"请勿泄漏这个二维码",
+        "warningContent":"这个二维码是用来导出帐号的。\n泄漏这个二维码可能会导致敏感信息泄漏。\n请小心处理。",
+        "warningConfirm":"确认"
+    },
+    "zhtw":{
+        "title":"匯出賬戶",
+        "warningTitle":"請勿將這個QR碼外泄",
+        "warningContent":"這是匯出時必要的QR碼。\n將這個QR碼外泄可能會導致重要個資外泄。\n請小心處理。",
+        "warningConfirm":"確定"
+    }
+}
