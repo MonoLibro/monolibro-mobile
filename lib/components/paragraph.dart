@@ -19,7 +19,7 @@ class Paragraph extends StatelessWidget{
         fontSize: size ?? t.Typography.paragraphSize,
         color: color ?? ThemeColors.grayAccent[3],
         decoration: TextDecoration.none,
-        fontWeight: FontWeight.normal
+        fontWeight: weight ?? FontWeight.normal
       ),
     );
   }
