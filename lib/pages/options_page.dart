@@ -86,7 +86,6 @@ class _OptionsPageState extends State<OptionsPage>{
   Widget build(BuildContext context) {
     return MonolibroScaffold(
       title: getText("title"),
-      fullIcon: true,
       body: InputLayout(
         control: InputLayoutControl(
           builder: builder,
