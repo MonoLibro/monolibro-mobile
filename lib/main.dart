@@ -5,6 +5,7 @@ import 'package:monolibro/pages/initialization_pages/import_account_page.dart';
 import 'package:monolibro/pages/initialization_pages/new_account_page.dart';
 import 'package:monolibro/pages/loading_page.dart';
 import 'package:monolibro/pages/main_page.dart';
+import 'package:monolibro/pages/options_page.dart';
 import 'package:monolibro/pages/view_activity_page.dart';
 
 void main() {
@@ -19,10 +20,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'MonoLibro',
       debugShowCheckedModeBanner: false,
-      initialRoute: "/view_activity",
+      initialRoute: "/options",
       routes:{
-        "/init": (context) => const LoadingPage(),
         "/view_activity": (context) => const ViewActivityPage(),
+        "/options": (context) => const OptionsPage(),
+        "/init": (context) => const LoadingPage(),
         "/init/language": (context) => const LanguageSelectorPage(),
         "/init/accountinit": (context) => const AccountInitPage(),
         "/init/importaccount": (context) => const ImportAccountPage(),
