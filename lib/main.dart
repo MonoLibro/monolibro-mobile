@@ -7,6 +7,7 @@ import 'package:monolibro/pages/initialization_pages/new_account_page.dart';
 import 'package:monolibro/pages/loading_page.dart';
 import 'package:monolibro/pages/main_page.dart';
 import 'package:monolibro/pages/options_page.dart';
+import 'package:monolibro/pages/test.dart';
 import 'package:monolibro/pages/view_activity_page.dart';
 
 void main() {
@@ -21,9 +22,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'MonoLibro',
       debugShowCheckedModeBanner: false,
-      initialRoute: "/options/export",
+      initialRoute: "/test",
       routes:{
         "/view_activity": (context) => const ViewActivityPage(),
+        "/test": (context) => const Test(),
         "/options": (context) => const OptionsPage(),
         "/options/export": (context) => const ExportAccountPage(),
         "/init": (context) => const LoadingPage(),

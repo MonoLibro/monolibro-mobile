@@ -34,6 +34,10 @@ dependencies:
   expandable: ^5.0.1
   keyboard_visibility: any
   sqflite: ^2.0.0
+  web_socket_channel: ^2.1.0
+  cryptography: ^2.0.5
+  pointycastle: ^3.4.0
+  pem: ^2.0.0
 
 dev_dependencies:
   flutter_test:
