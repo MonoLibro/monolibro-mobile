@@ -33,6 +33,7 @@ dependencies:
   carbon_icons: ^0.0.1
   expandable: ^5.0.1
   keyboard_visibility: any
+  sqflite: ^2.0.0
 
 dev_dependencies:
   flutter_test:
