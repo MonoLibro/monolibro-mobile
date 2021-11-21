@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
+import 'package:basic_utils/basic_utils.dart';
 import 'package:monolibro/monolibro/context.dart';
 import 'package:monolibro/monolibro/models/key_exchange_data.dart';
 import 'package:monolibro/monolibro/models/payload.dart';
@@ -45,6 +47,8 @@ class WSClient{
       Map decodedMessage = jsonDecode(data);
       if (decodedMessage.containsKey("publicKey")){
         KeyExchangeData keyExchangeData = KeyExchangeData.fromJson(data);
+        var publicKey = CryptoUtils.rsaPublicKeyFromDERBytes(
+            Uint8List.fromList(utf8.encode(keyExchangeData.publicKey)));
       }
       else{
         Payload payload = Payload.fromJson(decodedMessage);

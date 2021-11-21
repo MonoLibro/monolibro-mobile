@@ -39,6 +39,7 @@ dependencies:
   cryptography: ^2.0.5
   pointycastle: ^3.4.0
   pem: ^2.0.0
+  basic_utils: ^3.9.0
 
 dev_dependencies:
   flutter_test:
