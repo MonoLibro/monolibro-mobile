@@ -8,35 +8,36 @@ import 'package:monolibro/components/monolibro_scaffold.dart';
 import 'package:monolibro/controls/input_layout_control.dart';
 import 'package:monolibro/globals/internationalization.dart';
 
-class OptionsPage extends StatefulWidget{
+class OptionsPage extends StatefulWidget {
   const OptionsPage({Key? key}) : super(key: key);
 
   @override
   _OptionsPageState createState() => _OptionsPageState();
 }
 
-class _OptionsPageState extends State<OptionsPage>{
+class _OptionsPageState extends State<OptionsPage> {
   Map text = {};
-  
+
   Future<void> getData() async {
-    var result = await Internationalization.getTranslationObject(context, "options_page");
+    var result = await Internationalization.getTranslationObject(
+        context, "options_page");
     setState(() {
       text = result;
     });
   }
-  
+
   @override
   void initState() {
     getData();
     super.initState();
   }
-  
-  String getText(String key){
+
+  String getText(String key) {
     if (text == {}) return "";
     return text[key].toString();
   }
 
-  InputGroup builder(int index){
+  InputGroup builder(int index) {
     List<InputGroup> widgets = [
       InputGroup(
         inputBuilder: (int inputIndex) => [
@@ -48,7 +49,7 @@ class _OptionsPageState extends State<OptionsPage>{
             alignment: Alignment.centerRight,
             child: Button(
               text: getText("confirm"),
-              onPressed: (){},
+              onPressed: () {},
             ),
           ),
         ][inputIndex],
@@ -60,24 +61,23 @@ class _OptionsPageState extends State<OptionsPage>{
         title: getText("userGroup"),
       ),
       InputGroup(
-        inputBuilder: (int inputIndex)=>InputText(hint: getText("language")),
-        count: 1,
-        icon: const Icon(
-          CarbonIcons.settings_adjust,
-          size: 35,
-        ),
-        title: getText("generalGroup")
-      ),
+          inputBuilder: (int inputIndex) =>
+              InputText(hint: getText("language")),
+          count: 1,
+          icon: const Icon(
+            CarbonIcons.settings_adjust,
+            size: 35,
+          ),
+          title: getText("generalGroup")),
       InputGroup(
-        expandable: true,
-        inputBuilder: (int inputIndex)=>Container(),
-        count: 0,
-        icon: const Icon(
-          CarbonIcons.settings,
-          size: 35,
-        ),
-        title: getText("advancedGroup")
-      )
+          expandable: true,
+          inputBuilder: (int inputIndex) => Container(),
+          count: 0,
+          icon: const Icon(
+            CarbonIcons.settings,
+            size: 35,
+          ),
+          title: getText("advancedGroup"))
     ];
     return widgets[index];
   }

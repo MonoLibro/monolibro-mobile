@@ -9,17 +9,17 @@ import 'package:monolibro/globals/internationalization.dart';
 import 'package:monolibro/globals/theme_colors.dart';
 import 'package:monolibro/globals/typography.dart' as t;
 
-class AccountInitPage extends StatefulWidget{
+class AccountInitPage extends StatefulWidget {
   const AccountInitPage({Key? key}) : super(key: key);
 
   @override
   _AccountInitPageState createState() => _AccountInitPageState();
 }
 
-class _AccountInitPageState extends State<AccountInitPage>{
+class _AccountInitPageState extends State<AccountInitPage> {
   Map text = {};
-  final promptSequence = ["hasAccount","newToApp"];
-  final buttonSequence = ["importAccount","newAccount"];
+  final promptSequence = ["hasAccount", "newToApp"];
+  final buttonSequence = ["importAccount", "newAccount"];
   final pageSequence = ["/init/importaccount", "/init/newaccount"];
   final buttonIconSequence = [
     FaIcon(
@@ -34,13 +34,14 @@ class _AccountInitPageState extends State<AccountInitPage>{
     )
   ];
 
-  String getText(String key){
+  String getText(String key) {
     if (text == {}) return "";
     return text[key].toString();
   }
 
   getData() async {
-    var result = await Internationalization.getTranslationObject(context, "account_init_page");
+    var result = await Internationalization.getTranslationObject(
+        context, "account_init_page");
     setState(() {
       text = result;
     });
@@ -52,18 +53,18 @@ class _AccountInitPageState extends State<AccountInitPage>{
     super.initState();
   }
 
-  Widget buildOption(int index){
+  Widget buildOption(int index) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Padding(
           padding: const EdgeInsets.only(bottom: 15),
-          child: Paragraph(text:getText(promptSequence[index])),
+          child: Paragraph(text: getText(promptSequence[index])),
         ),
         LargeIconButton(
           text: getText(buttonSequence[index]),
           icon: buttonIconSequence[index],
-          onTap: (){
+          onTap: () {
             Navigator.pushNamed(context, pageSequence[index]);
           },
         ),
@@ -72,7 +73,7 @@ class _AccountInitPageState extends State<AccountInitPage>{
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
       child: FocusScaffold(

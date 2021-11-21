@@ -1,6 +1,6 @@
 import 'package:flutter/painting.dart';
 
-class ThemeColors{
+class ThemeColors {
   static var defaultAccent = [
     const Color(0xFFFFF2CC),
     const Color(0xFFFFE699),
@@ -19,16 +19,13 @@ class ThemeColors{
   static var defaultGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors:[
+    colors: [
       ThemeColors.defaultAccent[1],
       ThemeColors.defaultAccent[0],
     ],
   );
 
-  static var successAccent = [
-    const Color(0xFF00CC88),
-    const Color(0xFF006e49)
-  ];
+  static var successAccent = [const Color(0xFF00CC88), const Color(0xFF006e49)];
 
   static var errorAccent = [
     const Color(0xFFA41B21),

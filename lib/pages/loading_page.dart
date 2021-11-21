@@ -12,20 +12,18 @@ class LoadingPage extends StatefulWidget {
 
 class _LoadingPageState extends State<LoadingPage> {
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         gradient: ThemeColors.defaultGradient,
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children:[
-          const LogoGroup(),
-          CircularProgressIndicator(
-            color: ThemeColors.defaultAccent[3],
-          ),
-        ]
-      ),
+      child:
+          Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+        const LogoGroup(),
+        CircularProgressIndicator(
+          color: ThemeColors.defaultAccent[3],
+        ),
+      ]),
     );
   }
 }

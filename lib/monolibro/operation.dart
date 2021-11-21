@@ -1,4 +1,4 @@
-enum Operation{
+enum Operation {
   // DO NOT change the order of the intentions
   systemDebug,
   clientDebug,
@@ -19,7 +19,7 @@ enum Operation{
   clearPaymentConfirm
 }
 
-extension IntentionExtension on Operation{
+extension IntentionExtension on Operation {
   int get value {
     return Operation.values.indexOf(this) - 2;
   }

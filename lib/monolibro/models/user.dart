@@ -11,9 +11,8 @@ class User {
   User(this.userID, this.firstName, this.lastName, this.email, this.publicKey);
 
   factory User.fromJson(dynamic json) {
-    
-    return User(
-      json['userID'] as String, json['firstName'] as String, json['lastName'] as String, json['email'] as String, pk);
+    return User(json['userID'] as String, json['firstName'] as String,
+        json['lastName'] as String, json['email'] as String, pk);
   }
 
   @override

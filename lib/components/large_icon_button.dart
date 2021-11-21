@@ -4,8 +4,10 @@ import 'package:monolibro/components/paragraph.dart';
 import 'package:monolibro/globals/theme_colors.dart';
 import 'package:monolibro/globals/typography.dart' as t;
 
-class LargeIconButton extends StatelessWidget{
-  const LargeIconButton({Key? key, required this.icon, required this.text, required this.onTap}) : super(key: key);
+class LargeIconButton extends StatelessWidget {
+  const LargeIconButton(
+      {Key? key, required this.icon, required this.text, required this.onTap})
+      : super(key: key);
   final Widget icon;
   final String text;
   final VoidCallback onTap;

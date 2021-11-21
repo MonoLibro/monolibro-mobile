@@ -1,4 +1,4 @@
-class Typography{
+class Typography {
   static String latinFontPrimary = "TitilliumWeb";
   static String latinFontSecondary = "Roboto";
 

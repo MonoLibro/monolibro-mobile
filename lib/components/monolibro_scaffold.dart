@@ -5,8 +5,16 @@ import 'package:monolibro/components/logo_group.dart';
 import 'package:monolibro/globals/theme_colors.dart';
 import 'package:monolibro/globals/typography.dart' as t;
 
-class MonolibroScaffold extends StatelessWidget{
-  const MonolibroScaffold({Key? key, this.title, this.color, this.body, this.popButton, this.left, this.fullIcon}) : super(key: key);
+class MonolibroScaffold extends StatelessWidget {
+  const MonolibroScaffold(
+      {Key? key,
+      this.title,
+      this.color,
+      this.body,
+      this.popButton,
+      this.left,
+      this.fullIcon})
+      : super(key: key);
   final String? title;
   final Color? color;
   final Widget? body;
@@ -15,7 +23,7 @@ class MonolibroScaffold extends StatelessWidget{
   final bool? fullIcon;
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     bool hasTitle = title != null;
     bool hasPopButton = popButton ?? true;
     bool hasFullIcon = fullIcon ?? false;
@@ -35,7 +43,7 @@ class MonolibroScaffold extends StatelessWidget{
             child: Container(
               height: 68,
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.fromLTRB(hasPopButton ? 10 : 25 , 10, 10, 10),
+              padding: EdgeInsets.fromLTRB(hasPopButton ? 10 : 25, 10, 10, 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -48,7 +56,7 @@ class MonolibroScaffold extends StatelessWidget{
                           child: Material(
                             color: ThemeColors.defaultAccent[0],
                             child: IconButton(
-                              onPressed: (){
+                              onPressed: () {
                                 Navigator.pop(context);
                               },
                               color: ThemeColors.grayAccent[3],
@@ -61,16 +69,14 @@ class MonolibroScaffold extends StatelessWidget{
                           ),
                         ),
                       ),
-                      Text(
-                        title ?? "",
-                        style: TextStyle(
-                          fontSize: t.Typography.appbarTitleSize,
-                          decoration: TextDecoration.none,
-                          color: ThemeColors.grayAccent[3],
-                          fontFamily: t.Typography.latinFontPrimary,
-                          fontWeight: FontWeight.w200,
-                        )
-                      )
+                      Text(title ?? "",
+                          style: TextStyle(
+                            fontSize: t.Typography.appbarTitleSize,
+                            decoration: TextDecoration.none,
+                            color: ThemeColors.grayAccent[3],
+                            fontFamily: t.Typography.latinFontPrimary,
+                            fontWeight: FontWeight.w200,
+                          ))
                     ],
                   ),
                   Container(
@@ -80,11 +86,13 @@ class MonolibroScaffold extends StatelessWidget{
               ),
               decoration: BoxDecoration(
                 color: ThemeColors.defaultAccent[0],
-                boxShadow: [BoxShadow(
-                  color: ThemeColors.defaultAppbarShadow,
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                )],
+                boxShadow: [
+                  BoxShadow(
+                    color: ThemeColors.defaultAppbarShadow,
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                  )
+                ],
               ),
             ),
           ),
@@ -92,39 +100,39 @@ class MonolibroScaffold extends StatelessWidget{
         Container(
           height: 110,
           width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.fromLTRB(20, MediaQuery.of(context).padding.top + 10, 10, 10),
+          padding: EdgeInsets.fromLTRB(
+              20, MediaQuery.of(context).padding.top + 10, 10, 10),
           child: Stack(
             children: [
               Visibility(
-                visible: ! hasFullIcon,
+                visible: !hasFullIcon,
                 child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: SizedBox(
-                    width: 50,
-                    height: 50,
-                    child:Image.asset("assets/Logo.png")
-                  )
-                ),
+                    alignment: Alignment.centerLeft,
+                    child: SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: Image.asset("assets/Logo.png"))),
               ),
               Visibility(
-                visible: hasFullIcon,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: LogoGroup(
-                    fontSize: t.Typography.logoSizePrimary,
-                    logoSize: 50,
-                  ),
-                )
-              ),
+                  visible: hasFullIcon,
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: LogoGroup(
+                      fontSize: t.Typography.logoSizePrimary,
+                      logoSize: 50,
+                    ),
+                  )),
             ],
           ),
           decoration: BoxDecoration(
             gradient: ThemeColors.defaultGradient,
-            boxShadow: [BoxShadow(
-              color: ThemeColors.defaultAppbarShadow,
-              spreadRadius: 2,
-              blurRadius: 5,
-            )],
+            boxShadow: [
+              BoxShadow(
+                color: ThemeColors.defaultAppbarShadow,
+                spreadRadius: 2,
+                blurRadius: 5,
+              )
+            ],
           ),
         ),
       ],

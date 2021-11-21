@@ -1,4 +1,4 @@
-enum Intention{
+enum Intention {
   // DO NOT change the order of the operation
   debug,
   broadcast,
@@ -6,7 +6,7 @@ enum Intention{
   system,
 }
 
-extension IntentionExtension on Intention{
+extension IntentionExtension on Intention {
   int get value {
     return Intention.values.indexOf(this) - 1;
   }
