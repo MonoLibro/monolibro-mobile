@@ -9,4 +9,8 @@ class LocalStorage{
     SharedPreferences s = await SharedPreferences.getInstance();
     return s.getString(key);
   }
+  static hasItem(String key) async {
+    SharedPreferences s = await SharedPreferences.getInstance();
+    return s.containsKey(key);
+  }
 }

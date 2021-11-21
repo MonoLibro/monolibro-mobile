@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:monolibro/monolibro/context.dart';
+import 'package:monolibro/monolibro/models/key_exchange_data.dart';
 import 'package:monolibro/monolibro/models/payload.dart';
 import 'package:monolibro/monolibro/operation.dart';
 import 'package:monolibro/monolibro/state.dart';
+import 'package:pointycastle/asymmetric/api.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 typedef MessageHandler = void Function(Context context);
@@ -11,6 +13,7 @@ typedef AsyncMessageHandler = Future<void> Function(Context context);
 
 class WSClient{
   late WebSocketChannel channel;
+  late RSAPublicKey publicKey;
   Map<Operation, List<MessageHandler>> handlers = {};
   Map<Operation, List<AsyncMessageHandler>> asyncHandlers = {};
 
@@ -39,19 +42,24 @@ class WSClient{
 
   void ready(){
     channel.stream.listen((data) {
-      var decodedMessage = jsonDecode(data);
-      Payload payload = Payload.fromJson(decodedMessage);
-      Context ctx = Context(this, state, payload);
-      if (handlers.containsKey(payload.operation)){
-        for (MessageHandler handler in handlers[payload.operation]!){
-          handler(ctx);
-        }
+      Map decodedMessage = jsonDecode(data);
+      if (decodedMessage.containsKey("publicKey")){
+        KeyExchangeData keyExchangeData = KeyExchangeData.fromJson(data);
       }
-      if (asyncHandlers.containsKey(payload.operation)){
-        for (MessageHandler handler in asyncHandlers[payload.operation]!){
-          handler(ctx);
+      else{
+        Payload payload = Payload.fromJson(decodedMessage);
+        Context ctx = Context(this, state, payload);
+        if (handlers.containsKey(payload.operation)){
+          for (MessageHandler handler in handlers[payload.operation]!){
+            handler(ctx);
+          }
         }
-      } 
+        if (asyncHandlers.containsKey(payload.operation)){
+          for (MessageHandler handler in asyncHandlers[payload.operation]!){
+            handler(ctx);
+          }
+        } 
+      }
     });
   }
 }

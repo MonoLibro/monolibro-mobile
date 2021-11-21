@@ -6,4 +6,7 @@ void register(WSClient client){
   client.registerHandler(Operation.voteSessionQuery, (Context context){
     
   });
+  client.registerHandler(Operation.clientDebug, (Context context){
+    context.state.debugStream.sink.add(context.payload.data["debuginfo"]);
+  });
 }
