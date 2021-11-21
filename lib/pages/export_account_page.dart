@@ -2,14 +2,10 @@ import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:monolibro/components/focus_scaffold.dart';
-import 'package:monolibro/components/large_icon_button.dart';
 import 'package:monolibro/components/monolibro_scaffold.dart';
 import 'package:monolibro/components/paragraph.dart';
 import 'package:monolibro/globals/internationalization.dart';
 import 'package:monolibro/globals/theme_colors.dart';
-import 'package:monolibro/globals/typography.dart' as t;
 
 class ExportAccountPage extends StatefulWidget{
   const ExportAccountPage({Key? key}) : super(key: key);

@@ -104,7 +104,7 @@ class _ImportAccountPageState extends State<ImportAccountPage>{
     return MonolibroScaffold(
       title: getText("title"),
       fullIcon: true,
-      body: Container(
+      body: SizedBox(
         child: Swiper(
           itemCount: 5,
           control: const SwiperControl(
