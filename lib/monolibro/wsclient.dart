@@ -47,7 +47,7 @@ class WSClient{
       Map decodedMessage = jsonDecode(data);
       if (decodedMessage.containsKey("publicKey")){
         KeyExchangeData keyExchangeData = KeyExchangeData.fromJson(data);
-        var publicKey = CryptoUtils.rsaPublicKeyFromDERBytes(
+        publicKey = CryptoUtils.rsaPublicKeyFromDERBytes(
             Uint8List.fromList(utf8.encode(keyExchangeData.publicKey)));
       }
       else{
