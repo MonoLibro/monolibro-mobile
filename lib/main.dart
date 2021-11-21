@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'MonoLibro',
         debugShowCheckedModeBanner: false,
-        initialRoute: "/debug",
+        initialRoute: "/init",
         routes: {
           "/debug": (context) => const DebugPage(),
           "/view_activity": (context) => const ViewActivityPage(),
