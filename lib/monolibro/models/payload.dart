@@ -13,7 +13,7 @@ class Payload {
 
   factory Payload.fromJson(dynamic json) {
     Details details = Details.fromJson(json["details"]);
-    Operation operation = Operation.values[json["operation"] - 2];
+    Operation operation = Operation.values[json["operation"] + 2];
     return Payload(json["version"], json["sessionID"], details, operation, json["data"]);
   }
 
