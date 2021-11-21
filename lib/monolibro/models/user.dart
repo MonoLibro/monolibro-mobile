@@ -1,4 +1,7 @@
-import 'package:monolibro/globals/cryptography_utils.dart';
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:basic_utils/basic_utils.dart';
 import 'package:pointycastle/asymmetric/api.dart';
 
 class User{
@@ -12,7 +15,8 @@ class User{
 
   factory User.fromJson(dynamic data){
     String rawPublicKey = data["publicKey"];
-    RSAPublicKey publicKey = CryptographyUtils.asn1ToRSAPublicKey(rawPublicKey);
+    RSAPublicKey publicKey = CryptoUtils.rsaPublicKeyFromDERBytes(
+            Uint8List.fromList(utf8.encode(rawPublicKey)));;
     return User(data["userID"], data["firstName"], data["lastName"], data["email"], publicKey);
   }
 }
