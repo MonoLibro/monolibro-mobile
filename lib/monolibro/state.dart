@@ -16,6 +16,7 @@ class State{
     }
   }
 
+
   Activity? getActivity(String code){
     if (activities.containsKey(code)){
       return activities[code];
@@ -23,8 +24,8 @@ class State{
   }
 
   Future<void> init() async {
-    getUsers();
-    getActivites();
+    users = await getUsers();
+    activities = await getActivites();
   }
 
   Future<Map<String, User>> getUsers() async {
