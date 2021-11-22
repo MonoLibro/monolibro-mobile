@@ -65,4 +65,47 @@ class State{
     }
     return activities;
   }
+  Future<void> addUser(User user, {bool replace = false}) async {
+    if (getUser(user.userID) == null || replace){
+      String key = "";
+      await dbWrapper.execute("INSERT INTO User VALUES ('${user.userID}', '${user.firstName}', '${user.lastName}', '${user.email}', '$key', ${user.frozen ? 1 : 0})");
+      users[user.userID] = user;
+    }
+  }
+
+  Future<void> removeUser(User user) async {
+    await dbWrapper.execute("DELETE FROM User WHERE userID = '${user.userID}';");
+    users.remove(user.userID);
+  }
+
+  Future<void> updateUser(User user) async {
+    String key = "";
+    await dbWrapper.execute("UPDATE User SET firstName = '${user.firstName}', lastName = '${user.lastName}', email = '${user.email}', key = '$key', frozen = ${user.frozen ? 1 : 0} WHERE userID = '${user.userID}';");
+  }
+
+  Future<void> addActivity(Activity activity, {bool replace = false}) async {
+    if (getActivity(activity.code) == null || replace){
+      await dbWrapper.execute("INSERT INTO Activity VALUES ('${activity.code}', '${activity.name}', '${activity.hostUser.userID}', ${activity.totalPrice}, '${activity.timestamp}', ${activity.committed ? 1 : 0})");
+      await dbWrapper.execute("DELETE FROM ActivityEntry WHERE code = '${activity.code}';");
+      for (ActivityEntry entry in activity.entries){
+        await dbWrapper.execute("INSERT INTO ActivityEntry VALUES ('${activity.code}', '${entry.user.userID}', ${entry.price})");
+      }
+      activities[activity.code] = activity;
+    }
+  }
+
+  Future<void> removeActivity(Activity activity) async {
+    await dbWrapper.execute("INSERT INTO Activity VALUES ('${activity.code}', '${activity.name}', '${activity.hostUser.userID}', ${activity.totalPrice}, '${activity.timestamp}', ${activity.committed ? 1 : 0})");
+    await dbWrapper.execute("DELETE FROM ActivityEntry WHERE code = '${activity.code}';");
+    activities.remove(activity.code);
+  }
+
+  Future<void> updateActivity(Activity activity) async {
+    await dbWrapper.execute("DELETE FROM ActivityEntry WHERE code = '${activity.code}';");
+    await dbWrapper.execute("INSERT INTO Activity VALUES ('${activity.code}', '${activity.name}', '${activity.hostUser.userID}', ${activity.totalPrice}, '${activity.timestamp}', ${activity.committed ? 1 : 0})");
+    await dbWrapper.execute("DELETE FROM ActivityEntry WHERE code = '${activity.code}';");
+    for (ActivityEntry entry in activity.entries){
+      await dbWrapper.execute("INSERT INTO ActivityEntry VALUES ('${activity.code}', '${entry.user.userID}', ${entry.price})");
+    }
+  }
 }
