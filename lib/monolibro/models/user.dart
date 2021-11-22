@@ -16,7 +16,7 @@ class User{
   factory User.fromJson(dynamic data){
     String rawPublicKey = data["publicKey"];
     RSAPublicKey publicKey = CryptoUtils.rsaPublicKeyFromDERBytes(
-            Uint8List.fromList(utf8.encode(rawPublicKey)));;
+            Uint8List.fromList(utf8.encode(rawPublicKey)));
     return User(data["userID"], data["firstName"], data["lastName"], data["email"], publicKey);
   }
 }
