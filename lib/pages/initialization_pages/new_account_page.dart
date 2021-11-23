@@ -7,10 +7,20 @@ import 'package:monolibro/components/input_text.dart';
 import 'package:monolibro/components/monolibro_scaffold.dart';
 import 'package:monolibro/components/paragraph.dart';
 import 'package:monolibro/controls/input_layout_control.dart';
+import 'package:monolibro/globals/cryptography_utils.dart';
 import 'package:monolibro/globals/database.dart';
 import 'package:monolibro/globals/internationalization.dart';
+import 'package:monolibro/globals/message_utils.dart';
 import 'package:monolibro/globals/theme_colors.dart';
+import 'package:monolibro/globals/ws_control.dart';
+import 'package:monolibro/monolibro/intention.dart';
+import 'package:monolibro/monolibro/models/details.dart';
+import 'package:monolibro/monolibro/models/payload.dart';
+import 'package:monolibro/monolibro/operation.dart';
+import 'package:pointycastle/api.dart';
+import 'package:pointycastle/asymmetric/api.dart';
 import 'package:sprintf/sprintf.dart';
+import 'package:uuid/uuid.dart';
 
 class NewAccountPage extends StatefulWidget {
   const NewAccountPage({Key? key}) : super(key: key);
@@ -178,15 +188,33 @@ class _NewAccountPageState extends State<NewAccountPage> {
   }
 
   Future<void> registerAccount() async {
-    var userID = userIDController.value;
-    var firstName = userIDController.value;
-    var lastName = userIDController.value;
-    var email = userIDController.value;
-    dbWrapper.execute("insert into LocalUser values ('$userID', '$firstName', '$lastName', '$email', '', '', 0)");
-    Future.delayed(
-      const Duration(seconds: 1),
-      ()=>Navigator.popAndPushNamed(context, "/init")
-    );
+    String userID = userIDController.text;
+    String firstName = userIDController.text;
+    String lastName = userIDController.text;
+    String email = userIDController.text;
+    Uuid uuid = const Uuid();
+    AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> keyPair = CryptographyUtils.generateRSAKeyPair();
+    Payload accountCreationPayload = Payload(1, uuid.v4(), Details(Intention.broadcast, ""), Operation.createAccountInit, {
+      "userID": userID,
+      "firstName": firstName,
+      "lastName": lastName,
+      "email": email,
+      "publicKey": "",
+      "timestamp": (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString(),
+    });
+    
+    String sinkData = MessageUtils.serialize(accountCreationPayload, keyPair.privateKey);
+
+    wsClientGlobal.wsClient.channel.sink.add(sinkData);
+
+    setState(() {
+      isCreating=false;
+    });
+    // dbWrapper.execute("insert into LocalUser values ('$userID', '$firstName', '$lastName', '$email', '', '', 0)");
+    // Future.delayed(
+    //   const Duration(seconds: 1),
+    //   ()=>Navigator.popAndPushNamed(context, "/init")
+    // );
   }
 
   InputGroup builder(int index) {
