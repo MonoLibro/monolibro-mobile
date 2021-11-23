@@ -12,7 +12,8 @@
         "spent":"You have spent ...",
         "thisMonth":"This Month",
         "requiredOut":"You need to pay...",
-        "requiredIn":"Someone needs to pay you..."
+        "requiredIn":"Someone needs to pay you...",
+        "activityEmpty":"You don't have any activities yet"
     },
     "zhcn":{
         "or":"或者",
@@ -27,7 +28,8 @@
         "spent":"本月支出金额",
         "thisMonth":"",
         "requiredOut":"你需要归还的金额：",
-        "requiredIn":"你需要收回的金额："
+        "requiredIn":"你需要收回的金额：",
+        "activityEmpty":"目前没有任何活动"
     },
     "zhtw":{
         "or":"或者",
@@ -42,6 +44,7 @@
         "spent":"本月支出金額",
         "thisMonth":"",
         "requiredOut":"你需要歸還的金額：",
-        "requiredIn":"你需要回收的金額："
+        "requiredIn":"你需要回收的金額：",
+        "activityEmpty":"暫時沒有任何活動"
     }
 }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:monolibro/components/paragraph.dart';
 import 'package:monolibro/globals/theme_colors.dart';
 import 'package:monolibro/globals/typography.dart' as t;
+import 'package:monolibro/globals/ws_control.dart';
+import 'package:monolibro/monolibro/models/activity.dart';
 
 class ActivityHistory extends StatefulWidget {
   const ActivityHistory({Key? key, required this.text, required this.index})
@@ -15,13 +18,21 @@ class ActivityHistory extends StatefulWidget {
 }
 
 class _ActivityHistoryState extends State<ActivityHistory> {
+  Map<String, Activity> activities = wsClientGlobal.wsClient.state.activities;
+
   String getText(String key) {
     if (widget.text == {}) return "";
     return widget.text[key].toString();
   }
 
-  Widget buildListItem(BuildContext context, int index, int maxIndex,
-      bool pending, String date, double price, String title) {
+  void update(){
+    setState(() {
+      Map<String, Activity> activitis = wsClientGlobal.wsClient.state.activities;
+    });
+  }
+
+  Widget buildListItem({required BuildContext context, required int index, required int maxIndex,
+      required bool pending, required String date, required double price, required String title}) {
     double position = 0;
     double size = 60;
     if (maxIndex == 1) {
@@ -101,6 +112,29 @@ class _ActivityHistoryState extends State<ActivityHistory> {
                 ]))));
   }
 
+  List<Widget> buildListItems(BuildContext context){
+    List<Widget> result = [];
+    int index = 0;
+    for (String key in activities.keys){
+      Activity activity = activities[key]!;
+      buildListItem(
+        context: context,
+        date: DateFormat.yMMMd().format(
+          DateTime.fromMillisecondsSinceEpoch(
+            int.parse(activity.timestamp) * 1000
+          ),
+        ),
+        index: index,
+        maxIndex: activities.keys.length - 1,
+        title: activity.name,
+        price: activity.getSelfSum(),
+        pending: !activity.committed
+      );
+      index ++;
+    }
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     int scrollPadding = ((widget.index == 2) ? 270 : 350);
@@ -111,28 +145,45 @@ class _ActivityHistoryState extends State<ActivityHistory> {
           child: Container(color: ThemeColors.grayAccent[1], width: 80),
         ),
         Align(
-            alignment: Alignment.topCenter,
-            child: Padding(
-                padding: const EdgeInsets.only(top: 30),
-                child: Paragraph(
-                  text: getText("activityHistory"),
-                  size: t.Typography.panelTitle,
-                ))),
-        Positioned(
+          alignment: Alignment.topCenter,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 30),
+            child: Paragraph(
+              text: getText("activityHistory"),
+              size: t.Typography.panelTitle,
+            )
+          )
+        ),
+        Visibility(
+          visible: activities.isEmpty,
+          child: Align(
+            alignment: Alignment.center,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              color: Colors.white,
+              child: Paragraph(
+                text: getText("activityEmpty"),
+              )
+            )
+          ),
+        ),
+        Visibility(
+          visible: activities.isNotEmpty,
+          child: Positioned(
             bottom: 30,
             child: SizedBox(
-                width: MediaQuery.of(context).size.width - 100,
-                height: MediaQuery.of(context).size.height - scrollPadding,
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Column(
-                      // History childs
-                      children: [
-                        for (var j = 0; j < 20; j++)
-                          buildListItem(context, j, 20, j == 0, "2020-10-10",
-                              40, "Title_$j"),
-                      ]),
-                )))
+              width: MediaQuery.of(context).size.width - 100,
+              height: MediaQuery.of(context).size.height - scrollPadding,
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  // History childs
+                  children: buildListItems(context)
+                ),
+              )
+            )
+          )
+        )
       ],
     );
   }
