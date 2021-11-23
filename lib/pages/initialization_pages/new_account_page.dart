@@ -189,9 +189,9 @@ class _NewAccountPageState extends State<NewAccountPage> {
 
   Future<void> registerAccount() async {
     String userID = userIDController.text;
-    String firstName = userIDController.text;
-    String lastName = userIDController.text;
-    String email = userIDController.text;
+    String firstName = firstNameController.text;
+    String lastName = lastNameController.text;
+    String email = emailController.text;
     Uuid uuid = const Uuid();
     AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> keyPair = CryptographyUtils.generateRSAKeyPair();
     Payload accountCreationPayload = Payload(1, uuid.v4(), Details(Intention.broadcast, ""), Operation.createAccountInit, {
@@ -202,19 +202,23 @@ class _NewAccountPageState extends State<NewAccountPage> {
       "publicKey": "",
       "timestamp": (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString(),
     });
-    
-    String sinkData = MessageUtils.serialize(accountCreationPayload, keyPair.privateKey);
 
-    wsClientGlobal.wsClient.channel.sink.add(sinkData);
-
-    setState(() {
-      isCreating=false;
+    Payload joinNetworkPayload = Payload(1, uuid.v4(), Details(Intention.system, ""), Operation.joinNetwork, {
+      "userID": userID,
     });
-    // dbWrapper.execute("insert into LocalUser values ('$userID', '$firstName', '$lastName', '$email', '', '', 0)");
-    // Future.delayed(
-    //   const Duration(seconds: 1),
-    //   ()=>Navigator.popAndPushNamed(context, "/init")
-    // );
+    
+    String createAccountSinkData = MessageUtils.serialize(accountCreationPayload, keyPair.privateKey);
+    String joinNetworkSinkData = MessageUtils.serialize(accountCreationPayload, keyPair.privateKey);
+
+    await Future.delayed(const Duration(microseconds: 50), ()=>wsClientGlobal.wsClient.channel.sink.add(joinNetworkSinkData));
+    await Future.delayed(const Duration(microseconds: 50), ()=>wsClientGlobal.wsClient.channel.sink.add(createAccountSinkData));
+
+    dbWrapper.execute("insert into LocalUser values ('$userID', '$firstName', '$lastName', '$email', '', '', 0)");
+    
+    Future.delayed(
+      const Duration(seconds: 1),
+      ()=>Navigator.popAndPushNamed(context, "/init")
+    );
   }
 
   InputGroup builder(int index) {
