@@ -4,11 +4,13 @@ import 'package:monolibro/components/paragraph.dart';
 import 'package:monolibro/globals/theme_colors.dart';
 
 class InputText extends StatelessWidget {
-  InputText({Key? key, this.hint, this.controller, this.errorMessage, this.error}) : super(key: key);
+  InputText({Key? key, this.hint, this.controller, this.errorMessage, this.error, this.keyboardType, this.focusNode}) : super(key: key);
   final TextEditingController? controller;
   final String? hint;
   final String? errorMessage;
   final bool? error;
+  final TextInputType? keyboardType;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +21,8 @@ class InputText extends StatelessWidget {
           SizedBox(
             height: 40,
             child: TextField(
+              keyboardType: keyboardType,
+              focusNode: focusNode,
               controller: controller,
               cursorColor: ThemeColors.defaultAccent[3],
               decoration: InputDecoration(

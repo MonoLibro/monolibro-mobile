@@ -10,13 +10,14 @@ class User{
   String lastName;
   String email;
   RSAPublicKey publicKey;
+  bool frozen;
 
-  User(this.userID, this.firstName, this.lastName, this.email, this.publicKey);
+  User(this.userID, this.firstName, this.lastName, this.email, this.publicKey, this.frozen);
 
   factory User.fromJson(dynamic data){
     String rawPublicKey = data["publicKey"];
     RSAPublicKey publicKey = CryptoUtils.rsaPublicKeyFromDERBytes(
             Uint8List.fromList(utf8.encode(rawPublicKey)));
-    return User(data["userID"], data["firstName"], data["lastName"], data["email"], publicKey);
+    return User(data["userID"], data["firstName"], data["lastName"], data["email"], publicKey, data["frozen"] == 1);
   }
 }

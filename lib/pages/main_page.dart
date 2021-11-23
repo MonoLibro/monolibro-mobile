@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:monolibro/components/input_text.dart';
 import 'package:monolibro/components/main_panels/activity_history.dart';
 import 'package:monolibro/components/main_panels/dashboard.dart';
 import 'package:monolibro/components/main_panels/new_activity.dart';
@@ -9,6 +10,7 @@ import 'package:monolibro/globals/internationalization.dart';
 import 'package:monolibro/globals/theme_colors.dart';
 import 'package:monolibro/globals/typography.dart' as t;
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:string_validator/string_validator.dart';
 
 class PanelData {
   PanelData(
@@ -44,6 +46,10 @@ class _MainPageState extends State<MainPage> {
   };
   int index = 0;
 
+  String code = "";
+  TextEditingController codeController = TextEditingController(text: "_");
+  FocusNode codeFocus = FocusNode();
+
   List panelData = [
     (BuildContext context) => PanelData(
         index: 0, padding: 20, position: 0, color: const Color(0x00000000)),
@@ -70,6 +76,8 @@ class _MainPageState extends State<MainPage> {
   @override
   void dispose() {
     qrViewController?.dispose();
+    codeController.dispose();
+    codeFocus.dispose();
     super.dispose();
   }
 
@@ -98,6 +106,7 @@ class _MainPageState extends State<MainPage> {
           -activityCodePanelConfig["height"](context);
       activityCodePanelConfig["showed"] = true;
     });
+    initKeyboardForCode();
     Future.delayed(
         const Duration(milliseconds: 100),
         () => setState(() {
@@ -128,6 +137,9 @@ class _MainPageState extends State<MainPage> {
       } else {
         up = false;
       }
+    }
+    if (!up){
+      cleanKeyboardForCode();
     }
     setState(() {
       activityCodePanelConfig["position"] =
@@ -245,6 +257,21 @@ class _MainPageState extends State<MainPage> {
         });
       },
     );
+  }
+
+  void initKeyboardForCode(){
+    setState(() {
+      code = "";
+    });
+    codeController.value = TextEditingValue(
+      text: "_",
+      selection: TextSelection.collapsed(offset: codeController.text.length)
+    );
+    codeFocus.requestFocus();
+  }
+
+  void cleanKeyboardForCode(){
+    FocusScope.of(context).unfocus();
   }
 
   void setToPrevPage(BuildContext context) {
@@ -388,12 +415,40 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    codeController.addListener((){
+      bool isBackspace = codeController.text.isEmpty;
+      bool isNewChar = codeController.text.length > 1;
+      if (isBackspace){
+        if (code.isNotEmpty){
+          setState(() {
+            code = code.substring(0, code.length - 1);
+          });
+        }
+        codeController.text = "_";
+      }
+      if (isNewChar){
+        String newChars = codeController.text.substring(1);
+        if (isNumeric(newChars) && (code.length + newChars.length) < 7){
+          setState(() {
+            code += newChars;
+          });
+        }
+        codeController.text = "_";
+      }
+      codeController.selection = TextSelection.collapsed(offset: 1);
+    });
     return MonolibroScaffold(
         body: GestureDetector(
             onHorizontalDragUpdate: horizontalDragUpdateCallback,
             onHorizontalDragEnd: horizontalDragEndCallback,
             child: Stack(
               children: [
+                InputText(
+                  focusNode: codeFocus,
+                  controller: codeController,
+                  keyboardType: const TextInputType.numberWithOptions(),
+                ),
+                
                 // Background Gesture Detector Overlay
                 Container(
                   color: Colors.white,
@@ -583,9 +638,20 @@ class _MainPageState extends State<MainPage> {
                                       children: [
                                         for (var i = 0; i < 6; i++)
                                           Container(
-                                            color: ThemeColors.grayAccent[2],
                                             width: 40,
                                             height: 40,
+                                            decoration: BoxDecoration(
+                                              color: (code.length == i) ? ThemeColors.grayAccent[0] : ThemeColors.grayAccent[1],
+                                              border: Border.all(
+                                                color: (code.length == i) ? ThemeColors.defaultAccent[3] : ThemeColors.grayAccent[1],
+                                                width: 1.5,
+                                              ),
+                                            ),
+                                            child: Center(
+                                              child: Paragraph(
+                                                text: (code.length > i) ? code[i] : "_"
+                                              )
+                                            )
                                           ),
                                       ],
                                     ),

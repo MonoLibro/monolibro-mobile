@@ -12,8 +12,10 @@ class DatabaseWrapper {
     db = await openDatabase("db.sql",
     version: 1,
       onCreate: (Database db, int version) async {
-        await db.execute('CREATE TABLE LocalUser (userID char(32), firstName char(256), lastName char(256), email char(256), publicKey text, privateKey text, frozen int(1))');
-        // await db.execute('CREATE TABLE Users ()')
+        await db.execute('CREATE TABLE LocalUser (userID char(32), firstName char(256), lastName char(256), email char(256), publicKey text, privateKey text, frozen int(1));');
+        await db.execute('CREATE TABLE Activity (code char(6), name text, hostUser char(32), totalPrice real, timestamp text, committed int(1));');
+        await db.execute('CREATE TABLE ActivityEntry (code char(6), user char(32), price real);');
+        await db.execute('CREATE TABLE User (userID char(32), firstName char(256), lastName char(256), email char(256), publicKey text, frozen int(1));');
     });
     active = true;
   }

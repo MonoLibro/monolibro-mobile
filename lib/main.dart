@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:monolibro/pages/debug.dart';
-import 'package:monolibro/pages/debug.dart';
 import 'package:monolibro/pages/export_account_page.dart';
 import 'package:monolibro/pages/initialization_pages/account_init_page.dart';
 import 'package:monolibro/pages/initialization_pages/import_account_page.dart';
@@ -25,7 +23,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: "/init",
         routes: {
-          "/debug": (context) => const DebugPage(),
           "/view_activity": (context) => const ViewActivityPage(),
           "/options": (context) => const OptionsPage(),
           "/options/export": (context) => const ExportAccountPage(),
