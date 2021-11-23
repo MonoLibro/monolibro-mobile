@@ -35,4 +35,27 @@ class CryptographyUtils {
 
     return _processInBlocks(cipher, data);
   }
+
+  static Uint8List rsaSignPSS(Uint8List dataToSign, RSAPrivateKey privateKey) {
+    var signer = RSASigner(SHA256Digest(), '0609608648016503040201')
+      ..init(true, PrivateKeyParameter<RSAPrivateKey>(privateKey));
+
+    var sig = signer.generateSignature(dataToSign);
+
+    return sig.bytes;
+  }
+
+  static bool rsaVerifyPSS(
+      Uint8List data, Uint8List signature, RSAPublicKey publicKey) {
+    var verifier = RSASigner(SHA256Digest(), '0609608648016503040201')
+      ..init(false, PublicKeyParameter<RSAPublicKey>(publicKey));
+
+    var sig = RSASignature(signature);
+
+    try {
+      return verifier.verifySignature(data, sig);
+    } on ArgumentError {
+      return false;
+    }
+  }
 }
