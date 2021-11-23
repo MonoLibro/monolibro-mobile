@@ -45,7 +45,7 @@ class State{
   
   Future<Map<String, Activity>> getActivites() async {
     Map<String, Activity> activities = {};
-    List<Map> activityCodeRecords = await dbWrapper.executeWithResult("SELECT code * FROM Activity;");
+    List<Map> activityCodeRecords = await dbWrapper.executeWithResult("SELECT code FROM Activity;");
     List<String> activityCodes = [for (Map i in activityCodeRecords) i["code"]];
     for (String code in activityCodes){
       List<Map> activityEntries = await dbWrapper.executeWithResult("SELECT * FROM Activity, ActivityEntry WHERE Activity.code = ActivityEntry.code");
