@@ -2,11 +2,14 @@ import 'dart:typed_data';
 
 import 'package:basic_utils/basic_utils.dart';
 import 'package:pointycastle/export.dart';
+import 'package:pointycastle/src/platform_check/platform_check.dart';
 
 class CryptographyUtils {
   static AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> generateRSAKeyPair(
       {int keyLength = 2048}) {
-    var rng = SecureRandom();
+    var rng = SecureRandom('Fortuna')
+      ..seed(
+          KeyParameter(Platform.instance.platformEntropySource().getBytes(32)));
 
     var gen = RSAKeyGenerator()
       ..init(ParametersWithRandom(
