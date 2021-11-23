@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:monolibro/components/logo_group.dart';
 import 'package:monolibro/globals/database.dart';
 import 'package:monolibro/globals/theme_colors.dart';
+import 'package:monolibro/globals/ws_control.dart';
 
 class LoadingPage extends StatefulWidget {
   const LoadingPage({Key? key}) : super(key: key);
@@ -23,6 +24,7 @@ class _LoadingPageState extends State<LoadingPage> {
   
   Future<void> getData() async {
     await dbWrapper.initialize();
+    await wsClientGlobal.wsClient.state.init();
     List<Map> localUsers = await dbWrapper.executeWithResult("select * from LocalUser;");
     Future.delayed(const Duration(milliseconds: 500),(){
       setState(() {
