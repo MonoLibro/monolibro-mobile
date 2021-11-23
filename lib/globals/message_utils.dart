@@ -7,7 +7,7 @@ import 'package:monolibro/monolibro/models/payload.dart';
 
 class MessageUtils {
   static String serialize(Payload payload, RSAPublicKey publicKey) {
-    var payloadJson = jsonEncode(payload);
+    var payloadJson = jsonEncode(payload.toJson());
 
     var payloadEncrypted = CryptographyUtils.rsaEncryptOAEP(
         Uint8List.fromList(utf8.encode(payloadJson)), publicKey);
