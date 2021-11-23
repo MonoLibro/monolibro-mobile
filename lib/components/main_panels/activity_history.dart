@@ -27,12 +27,12 @@ class _ActivityHistoryState extends State<ActivityHistory> {
 
   void update(){
     setState(() {
-      Map<String, Activity> activitis = wsClientGlobal.wsClient.state.activities;
+      activities = wsClientGlobal.wsClient.state.activities;
     });
   }
 
   Widget buildListItem({required BuildContext context, required int index, required int maxIndex,
-      required bool pending, required String date, required double price, required String title}) {
+      required bool pending, required String date, required double price, required String title, required String code}) {
     double position = 0;
     double size = 60;
     if (maxIndex == 1) {
@@ -53,7 +53,15 @@ class _ActivityHistoryState extends State<ActivityHistory> {
     return Material(
         color: const Color(0x00000000),
         child: InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                "/main/view_activity",
+                arguments: {
+                  "activity": code,
+                }
+              );
+            },
             child: SizedBox(
                 height: 60,
                 child: Row(children: [
@@ -117,18 +125,21 @@ class _ActivityHistoryState extends State<ActivityHistory> {
     int index = 0;
     for (String key in activities.keys){
       Activity activity = activities[key]!;
-      buildListItem(
-        context: context,
-        date: DateFormat.yMMMd().format(
-          DateTime.fromMillisecondsSinceEpoch(
-            int.parse(activity.timestamp) * 1000
+      result.add(
+        buildListItem(
+          context: context,
+          date: DateFormat.yMMMd().format(
+            DateTime.fromMillisecondsSinceEpoch(
+              int.parse(activity.timestamp) * 1000
+            ),
           ),
-        ),
-        index: index,
-        maxIndex: activities.keys.length - 1,
-        title: activity.name,
-        price: activity.getSelfSum(),
-        pending: !activity.committed
+          code: activity.code,
+          index: index,
+          maxIndex: activities.keys.length,
+          title: activity.name,
+          price: activity.getSelfSum(),
+          pending: !activity.committed
+        )
       );
       index ++;
     }

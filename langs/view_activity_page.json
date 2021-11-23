@@ -1,8 +1,8 @@
 {
     "en":{
         "title": "View Activity",
-        "youPaid": "Your payment:",
-        "totalPaid": "Total payment:",
+        "youPaid": "Your payment: ",
+        "totalPaid": "Total payment: ",
         "members": "Participants",
         "commit": "Confirm",
         "edit": "Edit"

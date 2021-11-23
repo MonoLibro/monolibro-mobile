@@ -13,7 +13,9 @@
         "thisMonth":"This Month",
         "requiredOut":"You need to pay...",
         "requiredIn":"Someone needs to pay you...",
-        "activityEmpty":"You don't have any activities yet"
+        "activityEmpty":"You don't have any activities yet",
+        "activityNameField": "Activity Name",
+        "cannotBeEmpty": "%s cannot be empty"
     },
     "zhcn":{
         "or":"或者",
@@ -29,7 +31,9 @@
         "thisMonth":"",
         "requiredOut":"你需要归还的金额：",
         "requiredIn":"你需要收回的金额：",
-        "activityEmpty":"目前没有任何活动"
+        "activityEmpty":"目前没有任何活动",
+        "activityNameField": "活动名称",
+        "cannotBeEmpty": "%s不能为空"
     },
     "zhtw":{
         "or":"或者",
@@ -45,6 +49,8 @@
         "thisMonth":"",
         "requiredOut":"你需要歸還的金額：",
         "requiredIn":"你需要回收的金額：",
-        "activityEmpty":"暫時沒有任何活動"
+        "activityEmpty":"暫時沒有任何活動",
+        "activityNameField": "活動名稱",
+        "cannotBeEmpty": "%s不能留空"
     }
 }

@@ -28,20 +28,18 @@ class State{
 
   Future<void> init() async {
     users = await getUsers();
+    List<Map> localUsers = await dbWrapper.executeWithResult("select * from LocalUser;");
+    if (localUsers.isNotEmpty){
+      String userID = localUsers[0]["userID"];
+      String firstName = localUsers[0]["firstName"];
+      String lastName = localUsers[0]["lastName"];
+      String email = localUsers[0]["email"];
+      var keys =  CryptographyUtils.generateRSAKeyPair();
+      bool frozen = localUsers[0]["frozen"] == 1;
+      localUser = LocalUser(userID, firstName, lastName, email, keys.publicKey, keys.privateKey, frozen);
+      users[userID] = User(userID, firstName, lastName, email, keys.publicKey, frozen);
+    }
     activities = await getActivites();
-  }
-
-  Future<void> initWithLocal() async {
-    List<Map> localUserResult = await dbWrapper.executeWithResult("SELECT * FROM LocalUser");
-    String userID = localUserResult[0]["userID"];
-    String firstName = localUserResult[0]["firstName"];
-    String lastName = localUserResult[0]["lastName"];
-    String email = localUserResult[0]["email"];
-    bool frozen = localUserResult[0]["frozen"] == 1;
-    String publicKeyString = localUserResult[0]["publicKey"];
-    String privateKeyString = localUserResult[0]["privateKey"];
-    var keypair = CryptographyUtils.generateRSAKeyPair();
-    localUser = LocalUser(userID, firstName, lastName, email, keypair.publicKey, keypair.privateKey, frozen);
   }
 
   Future<Map<String, User>> getUsers() async {
@@ -52,9 +50,9 @@ class State{
       String firstName = record["firstName"];
       String lastName = record["lateName"];
       String email = record["email"];
-      RSAPublicKey? publicKey = null;
+      RSAPublicKey? publicKey = CryptographyUtils.generateRSAKeyPair().publicKey;
       bool frozen = record["frozen"] == 1;
-      users[userID] = User(userID, firstName, lastName, email, publicKey!, frozen);
+      users[userID] = User(userID, firstName, lastName, email, publicKey, frozen);
     }
     return users;
   }
@@ -64,13 +62,15 @@ class State{
     List<Map> activityCodeRecords = await dbWrapper.executeWithResult("SELECT code FROM Activity;");
     List<String> activityCodes = [for (Map i in activityCodeRecords) i["code"]];
     for (String code in activityCodes){
-      List<Map> activityEntries = await dbWrapper.executeWithResult("SELECT * FROM Activity, ActivityEntry WHERE Activity.code = ActivityEntry.code");
-      String name = activityEntries[0]["name"];
-      User hostUser = getUser(activityEntries[0]["hostUser"])!;
-      double totalPrice = activityEntries[0]["totalPrice"];
-      String timestamp = activityEntries[0]["timestamp"];
-      bool comitted = activityEntries[0]["comitted"] == 1;
+      List<Map> activityResult = await dbWrapper.executeWithResult("SELECT * FROM Activity WHERE Activity.code = $code");
+      if (activityResult.isEmpty) continue;
+      String name = activityResult[0]["name"];
+      User hostUser = getUser(activityResult[0]["hostUser"])!;
+      double totalPrice = activityResult[0]["totalPrice"];
+      String timestamp = activityResult[0]["timestamp"];
+      bool comitted = activityResult[0]["comitted"] == 1;
       Activity activity = Activity(code, timestamp, hostUser, totalPrice, name, committed: comitted);
+      List<Map> activityEntries = await dbWrapper.executeWithResult("SELECT * FROM Activity, ActivityEntry WHERE Activity.code = ActivityEntry.code AND Activity.code = $code");
       for (Map entryRecord in activityEntries){
         User user = getUser(entryRecord["user"])!;
         double price = entryRecord["price"];
