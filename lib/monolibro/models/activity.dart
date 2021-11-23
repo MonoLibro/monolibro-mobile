@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:monolibro/globals/local_user.dart';
 import 'package:monolibro/globals/ws_control.dart';
 import 'package:monolibro/monolibro/models/activity_action.dart';
 import 'package:monolibro/monolibro/models/activity_entry.dart';
@@ -68,8 +69,21 @@ class Activity{
     return sum;
   }
 
+  bool amIHost(){
+    return hostUser.userID == wsClientGlobal.wsClient.state.localUser!.userID;
+  }
+
   double getSelfSum(){
-    double entrySum = getEntrySum();
-    return totalPrice - entrySum;
+    if (amIHost()){
+      return totalPrice - getEntrySum();
+    }
+    else{
+      for (ActivityEntry entry in entries){
+        if (entry.user.userID == wsClientGlobal.wsClient.state.localUser!.userID){
+          return entry.price;
+        }
+      }
+      return 0;
+    }
   }
 }
