@@ -23,15 +23,15 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: "/init",
         routes: {
-          "/view_activity": (context) => const ViewActivityPage(),
-          "/options": (context) => const OptionsPage(),
-          "/options/export": (context) => const ExportAccountPage(),
+          "/main/view_activity": (context) => const ViewActivityPage(),
+          "/main/options": (context) => const OptionsPage(),
+          "/main/options/export": (context) => const ExportAccountPage(),
           "/init": (context) => const LoadingPage(),
           "/init/language": (context) => const LanguageSelectorPage(),
           "/init/accountinit": (context) => const AccountInitPage(),
           "/init/importaccount": (context) => const ImportAccountPage(),
           "/init/newaccount": (context) => const NewAccountPage(),
-          "/": (context) => const MainPage(),
+          "/main": (context) => const MainPage(),
         });
   }
 }

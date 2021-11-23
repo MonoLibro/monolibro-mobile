@@ -1,4 +1,6 @@
+import 'package:monolibro/globals/cryptography_utils.dart';
 import 'package:monolibro/globals/database.dart';
+import 'package:monolibro/globals/local_user.dart';
 import 'package:monolibro/monolibro/models/activity.dart';
 import 'package:monolibro/monolibro/models/activity_entry.dart';
 import 'package:monolibro/monolibro/models/user.dart';
@@ -9,6 +11,7 @@ class State{
   Map<String, VotingSession> votingSessions = {};
   Map<String, Activity> activities = {};
   Map<String, User> users = {};
+  LocalUser? localUser;
 
   User? getUser(String userID){
     if (users.containsKey(userID)){
@@ -26,6 +29,19 @@ class State{
   Future<void> init() async {
     users = await getUsers();
     activities = await getActivites();
+  }
+
+  Future<void> initWithLocal() async {
+    List<Map> localUserResult = await dbWrapper.executeWithResult("SELECT * FROM LocalUser");
+    String userID = localUserResult[0]["userID"];
+    String firstName = localUserResult[0]["firstName"];
+    String lastName = localUserResult[0]["lastName"];
+    String email = localUserResult[0]["email"];
+    bool frozen = localUserResult[0]["frozen"] == 1;
+    String publicKeyString = localUserResult[0]["publicKey"];
+    String privateKeyString = localUserResult[0]["privateKey"];
+    var keypair = CryptographyUtils.generateRSAKeyPair();
+    localUser = LocalUser(userID, firstName, lastName, email, keypair.publicKey, keypair.privateKey, frozen);
   }
 
   Future<Map<String, User>> getUsers() async {

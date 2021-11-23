@@ -42,6 +42,7 @@ class _LoadingPageState extends State<LoadingPage> {
       AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> keys = CryptographyUtils.generateRSAKeyPair();
       String message = MessageUtils.serialize(joinPayload, keys.privateKey);
       wsClientGlobal.wsClient.channel.sink.add(message);
+      await wsClientGlobal.wsClient.state.initWithLocal();
     }
     await Future.delayed(const Duration(milliseconds: 500),(){
       setState(() {
@@ -53,7 +54,7 @@ class _LoadingPageState extends State<LoadingPage> {
       Navigator.pushReplacementNamed(context, "/init/language");
     }
     else{
-      Navigator.pushReplacementNamed(context, "/");
+      Navigator.pushReplacementNamed(context, "/main");
     }
   }
   
