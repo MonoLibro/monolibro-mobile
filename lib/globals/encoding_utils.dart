@@ -11,7 +11,7 @@ class EncodingUtils {
   }
 
   static String base64UrlNoPaddingEncode(Uint8List data) {
-    return base64.encode(data).split("=")[0];
+    return base64Url.encode(data).split("=")[0];
   }
 
   static Uint8List base64UrlNoPaddingDecode(String data) {
