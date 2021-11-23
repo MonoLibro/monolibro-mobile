@@ -41,6 +41,7 @@ dependencies:
   pem: ^2.0.0
   basic_utils: ^3.9.0
   string_validator: ^0.3.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
