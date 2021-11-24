@@ -13,5 +13,5 @@ class ActivityAction{
   User? user;
   double? price;
 
-  ActivityAction(this.action, this.user, this.price);
+  ActivityAction(this.action, {this.user, this.price});
 }

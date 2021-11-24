@@ -16,7 +16,8 @@ enum Operation {
   leaveActivity,
   commitActivity,
   clearPaymentInit,
-  clearPaymentConfirm
+  clearPaymentConfirm,
+  joinActivityData
 }
 
 extension IntentionExtension on Operation {

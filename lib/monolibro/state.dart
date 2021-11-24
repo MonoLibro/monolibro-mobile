@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:monolibro/globals/cryptography_utils.dart';
 import 'package:monolibro/globals/database.dart';
 import 'package:monolibro/globals/local_user.dart';
@@ -10,6 +12,7 @@ import 'package:pointycastle/asymmetric/api.dart';
 class State{
   Map<String, VotingSession> votingSessions = {};
   Map<String, Activity> activities = {};
+  Map<String, StreamController<Activity>> waitingActivities = {};
   Map<String, User> users = {};
   LocalUser? localUser;
 

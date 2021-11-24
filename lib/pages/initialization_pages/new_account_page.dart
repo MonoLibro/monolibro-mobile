@@ -319,9 +319,9 @@ class _NewAccountPageState extends State<NewAccountPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       CircularProgressIndicator(color: ThemeColors.defaultAccent[3]),
-                        Paragraph(
-                          text: getText("creatingAccount"),
-                        )
+                      Paragraph(
+                        text: getText("creatingAccount"),
+                      )
                     ],
                   )
                 )

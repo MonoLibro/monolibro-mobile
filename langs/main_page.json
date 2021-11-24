@@ -2,7 +2,7 @@
     "en":{
         "or":"OR",
         "codePrompt":"Enter the 6-digit code",
-        "commit":"Commit",
+        "commit":"Confirm",
         "newActivity":"New Activity",
         "activityName":"Activity Name (e.g. Lunch)",
         "totalAmount":"Total Paid Amount",
@@ -15,7 +15,10 @@
         "requiredIn":"Someone needs to pay you...",
         "activityEmpty":"You don't have any activities yet",
         "activityNameField": "Activity Name",
-        "cannotBeEmpty": "%s cannot be empty"
+        "cannotBeEmpty": "%s cannot be empty",
+        "joiningActivity": "Joining Activity",
+        "attention": "Attention",
+        "noActivity": "Activity Not Found"
     },
     "zhcn":{
         "or":"或者",
@@ -33,7 +36,10 @@
         "requiredIn":"你需要收回的金额：",
         "activityEmpty":"目前没有任何活动",
         "activityNameField": "活动名称",
-        "cannotBeEmpty": "%s不能为空"
+        "cannotBeEmpty": "%s不能为空",
+        "joiningActivity": "正在加入活动",
+        "attention": "注意",
+        "noActivity": "未找到此活动"
     },
     "zhtw":{
         "or":"或者",
@@ -51,6 +57,9 @@
         "requiredIn":"你需要回收的金額：",
         "activityEmpty":"暫時沒有任何活動",
         "activityNameField": "活動名稱",
-        "cannotBeEmpty": "%s不能留空"
+        "cannotBeEmpty": "%s不能留空",
+        "joiningActivity": "正在加入活動",
+        "attention": "注意",
+        "noActivity": "沒有找到這個活動"
     }
 }

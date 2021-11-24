@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:monolibro/components/button.dart';
 import 'package:monolibro/components/input_text.dart';
 import 'package:monolibro/components/main_panels/activity_history.dart';
 import 'package:monolibro/components/main_panels/dashboard.dart';
@@ -7,10 +10,19 @@ import 'package:monolibro/components/main_panels/new_activity.dart';
 import 'package:monolibro/components/monolibro_scaffold.dart';
 import 'package:monolibro/components/paragraph.dart';
 import 'package:monolibro/globals/internationalization.dart';
+import 'package:monolibro/globals/message_utils.dart';
 import 'package:monolibro/globals/theme_colors.dart';
 import 'package:monolibro/globals/typography.dart' as t;
+import 'package:monolibro/globals/ws_control.dart';
+import 'package:monolibro/monolibro/intention.dart';
+import 'package:monolibro/monolibro/models/activity.dart';
+import 'package:monolibro/monolibro/models/details.dart';
+import 'package:monolibro/monolibro/models/payload.dart';
+import 'package:monolibro/monolibro/operation.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:sprintf/sprintf.dart';
 import 'package:string_validator/string_validator.dart';
+import 'package:uuid/uuid.dart';
 
 class PanelData {
   PanelData(
@@ -48,7 +60,12 @@ class _MainPageState extends State<MainPage> {
 
   String code = "";
   TextEditingController codeController = TextEditingController(text: "_");
+  TextEditingController paidAmountController = TextEditingController();
   FocusNode codeFocus = FocusNode();
+  bool paidAmountErr = false;
+  String paidAmountErrMsg = "";
+  bool joining = false;
+  bool enterAmount = false;
 
   List panelData = [
     (BuildContext context) => PanelData(
@@ -77,6 +94,7 @@ class _MainPageState extends State<MainPage> {
   void dispose() {
     qrViewController?.dispose();
     codeController.dispose();
+    paidAmountController.dispose();
     codeFocus.dispose();
     super.dispose();
   }
@@ -413,6 +431,87 @@ class _MainPageState extends State<MainPage> {
     return Container();
   }
 
+  Future<void> joinActivity(String code) async {
+    if (joining) return;
+    if (wsClientGlobal.wsClient.state.activities.containsKey(code)) {
+      Navigator.pushNamed(
+        context,
+        "/main/view_activity",
+        arguments: {
+          "activity": code,
+        }
+      );
+      return;
+    }
+
+    setState(() {
+      enterAmount = true;
+    });
+  }
+
+  Future<void> joinActivityNext(String code, double price) async {
+
+    setState(() {
+      joining = true;
+    });
+    Payload joinPayload = Payload(1, Uuid().v4(), Details(Intention.broadcast, ""), Operation.joinActivity, {
+      "activity": code,
+      "user": wsClientGlobal.wsClient.state.localUser!.userID,
+      "price": price
+    });
+    String msg = MessageUtils.serialize(joinPayload, wsClientGlobal.wsClient.state.localUser!.privateKey);
+    wsClientGlobal.wsClient.channel.sink.add(msg);
+    StreamController<Activity> stream = StreamController<Activity>();
+    wsClientGlobal.wsClient.state.waitingActivities[code] = stream;
+    stream.stream.listen((Activity event) {
+      wsClientGlobal.wsClient.state.addActivity(event);
+      wsClientGlobal.wsClient.state.waitingActivities.remove(event.code);
+      Navigator.pushNamed(
+        context,
+        "/main/view_activity",
+        arguments: {
+          "activity": code,
+        }
+      );
+      setState(() {
+        joining = false;
+        code = "";
+      });
+    });
+    await Future.delayed(const Duration(seconds: 5), (){
+      print(wsClientGlobal.wsClient.state.activities);
+      if (!wsClientGlobal.wsClient.state.activities.containsKey(code)) {
+        setState(() {
+          joining = false;
+          showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+              title: Paragraph(
+                text: getText("attention")
+              ),
+              content: Paragraph(
+                text: getText("noActivity"),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: (){},
+                  child: const Paragraph(text:"OK"),
+                )
+              ],
+            ),
+            barrierDismissible: true,
+          );
+          // joiningError = true;
+          // joiningErrorMsg = getText("noActivity");
+        });
+        wsClientGlobal.wsClient.state.waitingActivities.remove(code);
+        setState(() {
+          code = "";
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     codeController.addListener((){
@@ -436,234 +535,307 @@ class _MainPageState extends State<MainPage> {
         codeController.text = "_";
       }
       codeController.selection = TextSelection.collapsed(offset: 1);
+      if (code.length == 6){
+        joinActivity(code);
+        cleanKeyboardForCode();
+      }
     });
     return MonolibroScaffold(
-        body: GestureDetector(
-            onHorizontalDragUpdate: horizontalDragUpdateCallback,
-            onHorizontalDragEnd: horizontalDragEndCallback,
-            child: Stack(
-              children: [
-                InputText(
-                  focusNode: codeFocus,
-                  controller: codeController,
-                  keyboardType: const TextInputType.numberWithOptions(),
-                ),
-                
-                // Background Gesture Detector Overlay
-                Container(
-                  color: Colors.white,
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                ),
+    body: GestureDetector(
+        onHorizontalDragUpdate: horizontalDragUpdateCallback,
+        onHorizontalDragEnd: horizontalDragEndCallback,
+        child: Stack(
+          children: [
+            InputText(
+              focusNode: codeFocus,
+              controller: codeController,
+              keyboardType: const TextInputType.numberWithOptions(),
+            ),
+            
+            // Background Gesture Detector Overlay
+            Container(
+              color: Colors.white,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+            ),
 
-                // Main Content
-                Container(
-                    color: ThemeColors.grayAccent[1],
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          child: QRView(
-                            key: qrKey,
-                            onQRViewCreated: (QRViewController controller) {
-                              setState(() {
-                                qrViewController = controller;
-                              });
-                              controller.scannedDataStream
-                                  .listen((Barcode? qrcode) {});
-                            },
-                            overlay: QrScannerOverlayShape(
-                              cutOutSize:
-                                  MediaQuery.of(context).size.width * 0.6,
-                              borderWidth: 0,
-                              overlayColor: ThemeColors.grayAccent[1],
-                            ),
-                          ),
-                          height: MediaQuery.of(context).size.height * 0.5,
+            // Main Content
+            Container(
+                color: ThemeColors.grayAccent[1],
+                child: Column(
+                  children: [
+                    SizedBox(
+                      child: QRView(
+                        key: qrKey,
+                        onQRViewCreated: (QRViewController controller) {
+                          setState(() {
+                            qrViewController = controller;
+                          });
+                          controller.scannedDataStream
+                              .listen((Barcode? qrcode) {});
+                        },
+                        overlay: QrScannerOverlayShape(
+                          cutOutSize:
+                              MediaQuery.of(context).size.width * 0.6,
+                          borderWidth: 0,
+                          overlayColor: ThemeColors.grayAccent[1],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20),
-                          child: Paragraph(
-                            text: getText("or"),
-                          ),
+                      ),
+                      height: MediaQuery.of(context).size.height * 0.5,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Paragraph(
+                        text: getText("or"),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Paragraph(
+                        text: getText("codePrompt"),
+                        size: t.Typography.appbarTitleSize,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: showVerticalPanel,
+                      child: Container(
+                        color: ThemeColors.grayAccent[1],
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 40),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            for (var i = 0; i < 6; i++)
+                              Container(
+                                color: ThemeColors.grayAccent[2],
+                                width: 40,
+                                height: 40,
+                              ),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20),
-                          child: Paragraph(
-                            text: getText("codePrompt"),
-                            size: t.Typography.appbarTitleSize,
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: showVerticalPanel,
-                          child: Container(
-                            color: ThemeColors.grayAccent[1],
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 30, vertical: 40),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                for (var i = 0; i < 6; i++)
-                                  Container(
+                      ),
+                    ),
+                  ],
+                )),
+
+            // PANELS
+            for (var i = 1; i < 4; i++)
+              AnimatedPositioned(
+                  duration: const Duration(milliseconds: 100),
+                  left: panelData[i](context).position,
+                  child: AnimatedPadding(
+                      padding:
+                          EdgeInsets.all(panelData[i](context).padding),
+                      duration: const Duration(milliseconds: 100),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: const Color(0xFFFFFFFF),
+                            boxShadow: [
+                              BoxShadow(
+                                color: ThemeColors.defaultPanelShadow,
+                                blurRadius: 15,
+                              ),
+                            ],
+                            borderRadius: const BorderRadius.all(
+                                Radius.circular(15))),
+                        height: MediaQuery.of(context).size.height -
+                            (8 * (panelData[i](context).padding)),
+                        width: MediaQuery.of(context).size.width -
+                            (2 * (panelData[i](context).padding)),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.height -
+                                  (8 * (panelData[i](context).padding)),
+                              width: 30,
+                              decoration: BoxDecoration(
+                                color: panelData[i](context).color,
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(15),
+                                  bottomLeft: Radius.circular(15),
+                                ),
+                              ),
+                              child: Center(
+                                  child: Container(
+                                width: 10,
+                                height: 80,
+                                decoration: BoxDecoration(
                                     color: ThemeColors.grayAccent[2],
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5))),
+                              )),
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height -
+                                  (8 * (panelData[i](context).padding)),
+                              width: MediaQuery.of(context).size.width -
+                                  (2 * (panelData[i](context).padding)) -
+                                  30,
+                              child: getPanelPage(
+                                i,
+                                text,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ))),
+
+            // Code Panel Stack
+            Visibility(
+              visible: activityCodePanelConfig["showed"],
+              child: GestureDetector(
+                onVerticalDragUpdate: verticalDragUpdateCallback,
+                onVerticalDragEnd: verticalDragEndCallback,
+                child: Stack(
+                  children: [
+                    Container(
+                      color: ThemeColors.overlayColor,
+                    ),
+                    AnimatedPositioned(
+                      bottom: activityCodePanelConfig["position"].toDouble(),
+                      duration: const Duration(milliseconds: 100),
+                      child: Container(
+                        height: activityCodePanelConfig["height"](context),
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFFFFF),
+                          boxShadow: [
+                            BoxShadow(
+                              color: ThemeColors.defaultPanelShadow,
+                              blurRadius: 30,
+                            )
+                          ],
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30)
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              child: Container(
+                                height: 10,
+                                width: 70,
+                                decoration: BoxDecoration(
+                                  color: ThemeColors.grayAccent[2],
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Paragraph(
+                                text: getText("codePrompt"),
+                                size: t.Typography.appbarTitleSize,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  for (var i = 0; i < 6; i++) Container(
                                     width: 40,
                                     height: 40,
-                                  ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    )),
-
-                // PANELS
-                for (var i = 1; i < 4; i++)
-                  AnimatedPositioned(
-                      duration: const Duration(milliseconds: 100),
-                      left: panelData[i](context).position,
-                      child: AnimatedPadding(
-                          padding:
-                              EdgeInsets.all(panelData[i](context).padding),
-                          duration: const Duration(milliseconds: 100),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: const Color(0xFFFFFFFF),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: ThemeColors.defaultPanelShadow,
-                                    blurRadius: 15,
-                                  ),
-                                ],
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(15))),
-                            height: MediaQuery.of(context).size.height -
-                                (8 * (panelData[i](context).padding)),
-                            width: MediaQuery.of(context).size.width -
-                                (2 * (panelData[i](context).padding)),
-                            child: Row(
-                              children: [
-                                Container(
-                                  height: MediaQuery.of(context).size.height -
-                                      (8 * (panelData[i](context).padding)),
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                    color: panelData[i](context).color,
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(15),
-                                      bottomLeft: Radius.circular(15),
-                                    ),
-                                  ),
-                                  child: Center(
-                                      child: Container(
-                                    width: 10,
-                                    height: 80,
                                     decoration: BoxDecoration(
-                                        color: ThemeColors.grayAccent[2],
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(5))),
-                                  )),
-                                ),
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height -
-                                      (8 * (panelData[i](context).padding)),
-                                  width: MediaQuery.of(context).size.width -
-                                      (2 * (panelData[i](context).padding)) -
-                                      30,
-                                  child: getPanelPage(
-                                    i,
-                                    text,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ))),
-
-                // Code Panel Stack
-                Visibility(
-                    visible: activityCodePanelConfig["showed"],
-                    child: GestureDetector(
-                      onVerticalDragUpdate: verticalDragUpdateCallback,
-                      onVerticalDragEnd: verticalDragEndCallback,
-                      child: Stack(
-                        children: [
-                          Container(
-                            color: ThemeColors.overlayColor,
-                          ),
-                          AnimatedPositioned(
-                            bottom:
-                                activityCodePanelConfig["position"].toDouble(),
-                            duration: const Duration(milliseconds: 100),
-                            child: Container(
-                              height:
-                                  activityCodePanelConfig["height"](context),
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFFFFFFF),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: ThemeColors.defaultPanelShadow,
-                                    blurRadius: 30,
-                                  )
-                                ],
-                                borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(30),
-                                    topRight: Radius.circular(30)),
-                              ),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 20),
-                                    child: Container(
-                                      height: 10,
-                                      width: 70,
-                                      decoration: BoxDecoration(
-                                        color: ThemeColors.grayAccent[2],
-                                        borderRadius: BorderRadius.circular(5),
+                                      color: (code.length == i) ? ThemeColors.grayAccent[0] : ThemeColors.grayAccent[1],
+                                      border: Border.all(
+                                        color: (code.length == i) ? ThemeColors.defaultAccent[3] : ThemeColors.grayAccent[1],
+                                        width: 1.5,
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 20),
-                                    child: Paragraph(
-                                      text: getText("codePrompt"),
-                                      size: t.Typography.appbarTitleSize,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 30, vertical: 40),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        for (var i = 0; i < 6; i++)
-                                          Container(
-                                            width: 40,
-                                            height: 40,
-                                            decoration: BoxDecoration(
-                                              color: (code.length == i) ? ThemeColors.grayAccent[0] : ThemeColors.grayAccent[1],
-                                              border: Border.all(
-                                                color: (code.length == i) ? ThemeColors.defaultAccent[3] : ThemeColors.grayAccent[1],
-                                                width: 1.5,
-                                              ),
-                                            ),
-                                            child: Center(
-                                              child: Paragraph(
-                                                text: (code.length > i) ? code[i] : "_"
-                                              )
-                                            )
-                                          ),
-                                      ],
-                                    ),
+                                    child: Center(
+                                      child: Paragraph(
+                                        text: (code.length > i) ? code[i] : "_"
+                                      )
+                                    )
                                   ),
                                 ],
                               ),
                             ),
-                          )
-                        ],
+                          ],
+                        ),
                       ),
-                    )),
-              ],
-            )));
+                    )
+                  ],
+                ),
+              )
+            ),
+
+            // Join Activity Prompt
+            Visibility(
+              visible: enterAmount,
+              child: Container(
+                color: const Color(0xAA000000),
+                child: Center(
+                  child: Container(
+                    padding: const EdgeInsets.all(20),
+                    color: Colors.white,
+                    width: 300,
+                    height: 200,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InputText(
+                          hint: getText("totalAmount"),
+                          controller: paidAmountController,
+                          keyboardType: const TextInputType.numberWithOptions(
+                            signed: false,
+                            decimal: true
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Button(text: getText("commit"), onPressed: (){
+                            String raw = paidAmountController.text.trim();
+                            if (raw.isEmpty){
+                              setState(() {
+                                paidAmountErr = true;
+                                paidAmountErrMsg = sprintf(getText("cannotBeEmpty"), [getText("totalAmount")]);
+                              });
+                              return;
+                            }
+                            setState(() {
+                              paidAmountErr = false;
+                              enterAmount = false;
+                            });
+                            joinActivityNext(code, double.parse(raw).abs());
+                          }),
+                        )
+                      ],
+                    )
+                  )
+                ),
+              ) 
+            ),
+
+            //Enter Amount
+            Visibility(
+              visible: joining,
+              child: Container(
+                color: const Color(0xAA000000),
+                child: Center(
+                  child: Container(
+                    color: Colors.white,
+                    width: 200,
+                    height: 200,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        CircularProgressIndicator(color: ThemeColors.defaultAccent[3]),
+                        Paragraph(
+                          text: getText("joiningActivity"),
+                        )
+                      ],
+                    )
+                  )
+                ),
+              ) 
+            )
+          ],
+        )
+      )
+    );
   }
 }
