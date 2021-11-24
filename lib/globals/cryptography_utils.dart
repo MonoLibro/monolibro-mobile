@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:basic_utils/basic_utils.dart';
+import 'package:monolibro/globals/encoding_utils.dart';
 import 'package:pointycastle/export.dart';
 import 'package:pointycastle/src/platform_check/platform_check.dart';
 
@@ -20,6 +21,29 @@ class CryptographyUtils {
 
     return AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey>(
         pair.publicKey as RSAPublicKey, pair.privateKey as RSAPrivateKey);
+  }
+
+  static String rsaPublicKeyToDEREncoded(RSAPublicKey publicKey) {
+    var algSeq = ASN1Sequence();
+    algSeq.add(ASN1ObjectIdentifier.fromName('rsaEncryption'));
+    algSeq.add(ASN1Object.fromBytes(Uint8List.fromList([0x5, 0x0])));
+
+    var keySeq = ASN1Sequence();
+    keySeq.add(ASN1Integer(publicKey.modulus));
+    keySeq.add(ASN1Integer(publicKey.exponent));
+    var keyBitStr =
+        ASN1BitString(stringValues: Uint8List.fromList(keySeq.encode()));
+
+    var rootSeq = ASN1Sequence();
+    rootSeq.add(algSeq);
+    rootSeq.add(keyBitStr);
+
+    return EncodingUtils.base64UrlNoPaddingEncode(rootSeq.encode());
+  }
+
+  static RSAPublicKey derEncodedToRSAPublicKey(String pubKeyDerEncoded) {
+    var pubKeyDer = EncodingUtils.base64UrlNoPaddingDecode(pubKeyDerEncoded);
+    return CryptoUtils.rsaPublicKeyFromDERBytes(pubKeyDer);
   }
 
   static Uint8List rsaSignPSS(Uint8List dataToSign, RSAPrivateKey privateKey) {
