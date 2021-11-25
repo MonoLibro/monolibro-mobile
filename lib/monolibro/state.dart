@@ -3,11 +3,18 @@ import 'dart:async';
 import 'package:monolibro/globals/cryptography_utils.dart';
 import 'package:monolibro/globals/database.dart';
 import 'package:monolibro/globals/local_user.dart';
+import 'package:monolibro/globals/message_utils.dart';
+import 'package:monolibro/globals/ws_control.dart';
+import 'package:monolibro/monolibro/intention.dart';
 import 'package:monolibro/monolibro/models/activity.dart';
 import 'package:monolibro/monolibro/models/activity_entry.dart';
+import 'package:monolibro/monolibro/models/details.dart';
+import 'package:monolibro/monolibro/models/payload.dart';
 import 'package:monolibro/monolibro/models/user.dart';
+import 'package:monolibro/monolibro/operation.dart';
 import 'package:monolibro/monolibro/voting_session.dart';
 import 'package:pointycastle/asymmetric/api.dart';
+import 'package:uuid/uuid.dart';
 
 class State{
   Map<String, VotingSession> votingSessions = {};
@@ -15,6 +22,71 @@ class State{
   Map<String, StreamController<Activity>> waitingActivities = {};
   Map<String, User> users = {};
   LocalUser? localUser;
+  StreamController<List> userSyncStream = StreamController();
+  StreamController<List> activitySyncStream = StreamController();
+
+  Future<void> initUserCallback(List event) async {
+    for (Map i in event){
+      String userID = i["userID"];
+      String firstName = i["firstName"];
+      String lastName = i["lastName"];
+      String email = i["email"];
+      String publicKey = i["publicKey"];
+      double frozen = i["frozen"];
+      dbWrapper.execute("INERT INTO VALUES ('$userID', '$firstName', '$lastName', '$email', '$publicKey', $frozen)");
+    }
+    await getUsers();
+  }
+
+  Future<void> initUsers() async {
+    // Syncs from other devices.
+    
+    // Gets all user from self
+    users = await getUsers();
+    var keys =  CryptographyUtils.generateRSAKeyPair();
+    List<Map> localUsers = await dbWrapper.executeWithResult("select * from LocalUser;");
+    if (localUsers.isNotEmpty){
+      String userID = localUsers[0]["userID"];
+      String firstName = localUsers[0]["firstName"];
+      String lastName = localUsers[0]["lastName"];
+      String email = localUsers[0]["email"];
+      bool frozen = localUsers[0]["frozen"] == 1;
+      localUser = LocalUser(userID, firstName, lastName, email, keys.publicKey, keys.privateKey, frozen);
+      users[userID] = User(userID, firstName, lastName, email, keys.publicKey, frozen);
+
+      // Registers back calling function and initalize activities
+      userSyncStream.stream.listen((List event) {
+        // When recieving, register the users to db
+        initUserCallback(event);
+      });
+
+      // Sends sync req and local user to others
+      var syncReq = Payload(
+        1,
+        Uuid().v4(),
+        Details(
+          Intention.broadcast,
+          "",
+        ),
+        Operation.syncUsers,
+        {
+          "userID": userID,
+          "firstName": firstName,
+          "lastName": lastName,
+          "email": email,
+          "publicKey": "",
+          "frozen": frozen ? 1 : 0,
+        }
+      );
+      var msg = MessageUtils.serialize(syncReq, keys.privateKey);
+      wsClientGlobal.wsClient.channel.sink.add(msg);
+    }
+  }
+
+  Future<void> initActivities() async {
+    activities = await getActivites();
+    
+  }
 
   User? getUser(String userID){
     if (users.containsKey(userID)){
@@ -22,27 +94,10 @@ class State{
     }
   }
 
-
   Activity? getActivity(String code){
     if (activities.containsKey(code)){
       return activities[code];
     }
-  }
-
-  Future<void> init() async {
-    users = await getUsers();
-    List<Map> localUsers = await dbWrapper.executeWithResult("select * from LocalUser;");
-    if (localUsers.isNotEmpty){
-      String userID = localUsers[0]["userID"];
-      String firstName = localUsers[0]["firstName"];
-      String lastName = localUsers[0]["lastName"];
-      String email = localUsers[0]["email"];
-      var keys =  CryptographyUtils.generateRSAKeyPair();
-      bool frozen = localUsers[0]["frozen"] == 1;
-      localUser = LocalUser(userID, firstName, lastName, email, keys.publicKey, keys.privateKey, frozen);
-      users[userID] = User(userID, firstName, lastName, email, keys.publicKey, frozen);
-    }
-    activities = await getActivites();
   }
 
   Future<Map<String, User>> getUsers() async {
@@ -84,6 +139,7 @@ class State{
     }
     return activities;
   }
+
   Future<void> addUser(User user, {bool replace = false}) async {
     if (getUser(user.userID) == null || replace){
       String key = "";

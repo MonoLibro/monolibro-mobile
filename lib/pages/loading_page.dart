@@ -33,9 +33,9 @@ class _LoadingPageState extends State<LoadingPage> {
   
   Future<void> getData() async {
     await dbWrapper.initialize();
-    await wsClientGlobal.wsClient.state.init();
     List<Map> localUsers = await dbWrapper.executeWithResult("select * from LocalUser;");
     if (localUsers.isNotEmpty){
+      await wsClientGlobal.wsClient.state.initUsers();
       Payload joinPayload = Payload(1, Uuid().v4(), Details(Intention.system, ""), Operation.joinNetwork, {
         "userID": localUsers[0]["userID"]
       });
@@ -43,6 +43,7 @@ class _LoadingPageState extends State<LoadingPage> {
       String message = MessageUtils.serialize(joinPayload, keys.privateKey);
       wsClientGlobal.wsClient.channel.sink.add(message);
     }
+    // await wsClientGlobal.wsClient.state.init();
     await Future.delayed(const Duration(milliseconds: 500),(){
       setState(() {
         status = LoadingStatus.ready;

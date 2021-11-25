@@ -1,5 +1,6 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:monolibro/globals/cryptography_utils.dart';
+import 'package:monolibro/globals/database.dart';
 import 'package:monolibro/globals/message_utils.dart';
 import 'package:monolibro/globals/ws_control.dart';
 import 'package:monolibro/monolibro/context.dart';
@@ -15,6 +16,7 @@ import 'package:monolibro/monolibro/voting_session.dart';
 import 'package:monolibro/monolibro/wsclient.dart';
 import 'package:pointycastle/api.dart';
 import 'package:pointycastle/asymmetric/api.dart';
+import 'package:uuid/uuid.dart';
 
 void register(WSClient client){
   client.registerHandler(Operation.createAccountInit, (Context context){
@@ -104,5 +106,36 @@ void register(WSClient client){
     }
     
     wsClientGlobal.wsClient.state.waitingActivities[code]!.sink.add(activity);
+  });
+
+    client.registerAsyncHandler(Operation.syncUsers, (Context context) async {
+    // When recieving the user
+    String userID = context.payload.data["userID"];
+    String firstName = context.payload.data["firstName"];
+    String lastName = context.payload.data["lastName"];
+    String email = context.payload.data["lastName"];
+    String publicKey = context.payload.data["publicKey"];
+    AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> keypair = CryptographyUtils.generateRSAKeyPair();
+    User user = User(userID, firstName, lastName, email, keypair.publicKey, false);
+    await wsClientGlobal.wsClient.state.addUser(user);
+
+    // Sends all users from self
+    var qResult = await dbWrapper.executeWithResult("SELECT * FROM User");
+    List payloadData = qResult;
+    Payload p = Payload(1, Uuid().v4(), Details(Intention.specific, "userID"), Operation.syncUsersData, {
+      "sync": true,
+      "syncData": payloadData,
+    });
+    var pk = wsClientGlobal.wsClient.state.localUser!.privateKey;
+    var msg = MessageUtils.serialize(p, pk);
+    wsClientGlobal.wsClient.channel.sink.add(msg);
+  });
+  
+  client.registerAsyncHandler(Operation.syncUsersData, (Context context) async {
+    // When recieving the users
+    if (context.payload.data["sync"]){
+      wsClientGlobal.wsClient.state.userSyncStream.add(context.payload.data["syncData"]);
+    }
+    wsClientGlobal.wsClient.state.userSyncStream.add([]);
   });
 }

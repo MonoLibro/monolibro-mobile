@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:monolibro/components/paragraph.dart';
 import 'package:monolibro/globals/theme_colors.dart';
 import 'package:monolibro/globals/typography.dart' as t;
+import 'package:monolibro/globals/ws_control.dart';
+import 'package:monolibro/monolibro/models/activity.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard({Key? key, required this.text, required this.index})
@@ -22,6 +24,12 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    double totalSelfPrice = 0;
+    var keys = wsClientGlobal.wsClient.state.activities.keys;
+    for (var i in keys){
+      Activity a = wsClientGlobal.wsClient.state.activities[i]!;
+      totalSelfPrice += a.getSelfSum();
+    }
     return Expanded(
         child: Column(
       children: [
@@ -53,7 +61,7 @@ class _DashboardState extends State<Dashboard> {
                     Padding(
                         padding: const EdgeInsets.all(5),
                         child: Paragraph(
-                          text: "123.45",
+                          text: totalSelfPrice.toString(),
                           color: ThemeColors.defaultAccent[3],
                           size: t.Typography.largeNumber,
                           weight: FontWeight.w300,
@@ -85,7 +93,7 @@ class _DashboardState extends State<Dashboard> {
               child: Padding(
                   padding: const EdgeInsets.only(left: 10, right: 30),
                   child: Paragraph(
-                    text: "123.45",
+                    text: "0.00",
                     color: ThemeColors.successAccent[0],
                   )),
             ),
@@ -114,7 +122,7 @@ class _DashboardState extends State<Dashboard> {
               child: Padding(
                   padding: const EdgeInsets.only(left: 10, right: 30),
                   child: Paragraph(
-                    text: "123.00",
+                    text: "0.00",
                     color: ThemeColors.errorAccent[0],
                   )),
             ),
