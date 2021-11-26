@@ -6,10 +6,21 @@
         "firstName":"First Name",
         "lastName":"Last Name",
         "email":"Email",
-        "confirm":"New Account",
+        "confirm":"Update",
         "generalGroup":"General Options",
         "language":"Language",
-        "advancedGroup":"Adcanced Options"
+        "advancedGroup":"Adcanced Options",
+        "cannotBeEmpty":"%s cannot be empty",
+        "cannotBeLongerThen":"%s cannot be longer then %s",
+        "onlyContains":"%s should only contains %s",
+        "engChars":"English charactors",
+        "numChars":"numbers",
+        "underscores":"underscores",
+        "dashes":"dashes",
+        "mustBeEmailFormat":"Email is not in the correct format",
+        "comma":", ",
+        "and":" and ",
+        "creatingAccount":" Creating Account"
     },
     "zhcn":{
         "title":"设置",
@@ -21,7 +32,18 @@
         "confirm":"新建用户",
         "generalGroup":"一般设置",
         "language":"语言",
-        "advancedGroup":"高级选项"
+        "advancedGroup":"高级选项",
+        "cannotBeEmpty":"%s不能为空",
+        "cannotBeLongerThen":"%s的长度不能超过%s个字",
+        "onlyContains":"%s只能由%组成",
+        "engChars":"英文字母",
+        "numChars":"数字",
+        "underscores":"下划线",
+        "dashes":"横线",
+        "mustBeEmailFormat":"电子邮箱格式错误",
+        "comma":"，",
+        "and":"与",
+        "creatingAccount":"正在新建帐号" 
     },
     "zhtw":{
         "title":"設定",
@@ -33,6 +55,17 @@
         "confirm":"創建新資料",
         "generalGroup":"通用設定",
         "language":"語言",
-        "advancedGroup":"進階設定"
+        "advancedGroup":"進階設定",
+        "cannotBeEmpty":"%s不能留空",
+        "cannotBeLongerThen":"%s的長度不能超過%s個字",
+        "onlyContains":"%s只能由%s組成",
+        "engChars":"英文字母",
+        "numChars":"數字",
+        "underscores":"底線",
+        "dashes":"短劃線",
+        "mustBeEmailFormat":"電子郵件地址錯誤",
+        "comma":"，",
+        "and":"和",
+        "creatingAccount":"正在新增資料" 
     }
 }

@@ -194,7 +194,7 @@ class _ActivityHistoryState extends State<ActivityHistory> {
               )
             )
           )
-        )
+        ),
       ],
     );
   }

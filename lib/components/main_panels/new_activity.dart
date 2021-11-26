@@ -113,7 +113,6 @@ class _NewActivityState extends State<NewActivity> {
 
     wsClientGlobal.wsClient.state.addActivity(activity);
 
-    print(wsClientGlobal.wsClient.state.activities);
 
     Navigator.pushNamed(
       context,

@@ -12,7 +12,6 @@ import 'package:monolibro/monolibro/models/details.dart';
 import 'package:monolibro/monolibro/models/payload.dart';
 import 'package:monolibro/monolibro/models/user.dart';
 import 'package:monolibro/monolibro/operation.dart';
-import 'package:monolibro/monolibro/voting_session.dart';
 import 'package:monolibro/monolibro/wsclient.dart';
 import 'package:pointycastle/api.dart';
 import 'package:pointycastle/asymmetric/api.dart';
@@ -137,5 +136,10 @@ void register(WSClient client){
       wsClientGlobal.wsClient.state.userSyncStream.add(context.payload.data["syncData"]);
     }
     wsClientGlobal.wsClient.state.userSyncStream.add([]);
+  });
+
+  client.registerAsyncHandler(Operation.clearPaymentConfirm, (Context context) async {
+    // When recieving the users
+    wsClientGlobal.wsClient.state.clearedPayments.add(context.payload.data["payment"]);
   });
 }

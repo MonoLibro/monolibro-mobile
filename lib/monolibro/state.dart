@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:monolibro/globals/cleared_payments.dart';
 import 'package:monolibro/globals/cryptography_utils.dart';
 import 'package:monolibro/globals/database.dart';
 import 'package:monolibro/globals/local_user.dart';
@@ -24,6 +25,7 @@ class State{
   LocalUser? localUser;
   StreamController<List> userSyncStream = StreamController();
   StreamController<List> activitySyncStream = StreamController();
+  List<ClearedPayments> clearedPayments = [];
 
   Future<void> initUserCallback(List event) async {
     for (Map i in event){
